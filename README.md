@@ -55,9 +55,10 @@ Numeral representations, such as the Roman numerals, came up with more efficient
 ####Algorithm 1: Addition
 
 Using a base-10 addition table:
+
 ![Addition Table](http://i.imgur.com/BigcVCd.png)
 
-Addition (base 10): Add two _N_ digit numbers _a_ and _b_ represented by an array of digits.
+**Addition (base 10): Add two _N_ digit numbers _a_ and _b_ represented by an array of digits.**
 
 	carry = 0
 	for i = 0 to N-1 do 
@@ -109,9 +110,10 @@ A base 8 example:
 ####Algorithm 2: Multiplication
 
 Using a base-10 multiplication table:
+
 ![Multiplication table](http://i.imgur.com/RTyqZTI.png)
 
-Multiplication (base 10): Multiply two _N_ digit numbers _a_ and _b_ represented by an array of digits.
+**Multiplication (base 10): Multiply two _N_ digit numbers _a_ and _b_ represented by an array of digits.**
 
 	// Part 1: actually multiplying
 
