@@ -146,3 +146,170 @@ Using a base-10 multiplication table:
 Generalizing for any base B:
 	
 	Replace all modulo and division operations by B instead of 10.
+
+Analysis of Algorithms
+----------------------
+We analyze the space and time required to run an algorithm. The space used is less important than time.
+
+We do not analyze the time required to run each possible combination of inputs. This would take into account too many cases and would include too many details, rendering our analysis useless.
+
+In reality, we analyze time as a function of the size of the inputs (which is the parameter *N*). For all inputs of the same size, we would have a precise bound.
+
+####Analysis of Addition
+			
+	carry = 0  //CONSTANT TIME
+
+	for i = 0 to N-1 do //LOOP = LINEAR TIME
+		
+		r[i]  <-- (a[i]+b[i]+carry) % 10 //CONSTANT TIME
+		carry <-- (a[i]+b[i]+carry) / 10 //CONSTANT TIME
+
+	end for
+
+	r[N] <-- carry //CONSTANT TIME
+
+
+	Given c, c', c''
+
+	c    >= T("carry <-- 0")
+	c''  >= T("r[N]<--carry")
+	c'   >= T("r[i]..., carry"")
+	c'*N >= T("for...")
+
+
+
+	Time(N) <= c + c'N + c'' <== c_1 + c_2 * N
+	Time(N) is O(N)
+
+The constants c1 and c2 depend on the hardware that you run the algorithm on. The important thing to take home is that this algorithm has linear time, meaning that doubling the inputs will double time. This statement becomes more true for larger input sets.
+
+####Analysis of Multiplication
+
+	// Part 1: actually multiplying
+
+	for j = 0 to N - 1 do //LINEAR TIME
+		carry <-- 0
+		for i = 0 to N - 1 do //LINEAR TIME
+
+			prod        <-- (a[i] * b[j] + carry)
+			tmp[j][i+j] <-- prod % 10 
+			carry       <-- prod / 10 
+
+		end for
+		temp[j][N+j] 
+	end for	
+
+	// Part 2: summing all the products together
+
+	carry <-- 0 
+
+	for i = 0 to 2 * N - 1 do //LINEAR TIME
+		sum <-- carry
+		for j = 0 to N - 1 do //LINEAR TIME
+			sum <-- sum + tmp[j][i]
+		end for
+		r[i]  <-- sum % 10
+		carry <-- sum / 10
+	end for
+	r[2*N] <-- carry
+
+	Time(N) = c_1 + c_2*N + c_3*N^2
+	Time(N) is O(N^2)
+
+Since both parts of the algorithm have two linear for loops, they will be of quadratic time (since N x N = N<sup>2</sup>)
+
+####Big O Notation
+
+This notation drops all lower exponents and constants in Time(N).
+For example, addition is O(N) and multiplication is O(N<sup>2</sup>).
+
+Today, the best multiplication algorithm has a running time of O (N x 2<sup>log* N</sup>). This is very close to linear time, as the iterated logarithm (log*) function increases incredibly slowly. Of course, this makes for a much more sophistic algorithm.
+
+Bases and Binary Representation
+===============================
+
+####Base 8 to Base 2
+
+(2143)<sub>8</sub> = 2 x 8<sup>3</sup> + 1 x 8<sup>2</sup> + 4 x 8<sup>1</sup> + 3 x 8<sup>0</sup>
+
+Since 8 = 2<sup>3</sup>, you can simply convert the digit in base 8 to its binary representation. Each digit of 8 is equivalent to three binary digits. Thus, the conversion can be done by only local operations.
+
+(2143)<sub>8</sub> = (010 001 100 011)<sub>2</sub> = (010001100011)<sub>2</sub>
+
+An equivalent process is done to convert binary numbers to the much more readable hexadecimal base unit.
+
+####Base 2 to Base 10
+
+(10010010101010101)<sub>2</sub> = (75093)<sub>10</sub>
+
+We take each power of 2 in base 10, multiply them by their binary digit, and sum the digits up.
+
+	Powers of 2 in base 10:
+
+	2 ** 0  = 1     |   2 ** 11 = 2'048 
+	2 ** 1  = 2     |   2 ** 12 = 4'096
+	2 ** 2  = 4     |   2 ** 13 = 8'192
+	2 ** 3  = 8     |   2 ** 14 = 16'384
+	2 ** 4  = 16    |   2 ** 15 = 32'768 
+	2 ** 5  = 32    |   2 ** 16 = 65'536
+	2 ** 6  = 64    |   2 ** 17 = 131'072
+	2 ** 7  = 128   |   2 ** 18 = 262'144
+	2 ** 8  = 256   |   2 ** 19 = 524'288
+	2 ** 9  = 512  	|   2 ** 20 = 1'048'576
+	2 ** 10 = 1'024 |   2 ** 21 = 2'097'152
+
+This process is special to base 2 because we only have two options for each digit: included or excluded from the sum. Doing the same process in the other direction much more complicated operations, since include/exclude aren't the only operations. You can have from 0 to 9 times of each digit.
+
+####Algorithm 3: Convert integer to binary
+
+**Input: a number _n_**
+**Output: the number _m_ expressed in base 2 using a bit array _b[]_**
+
+	i <-- 0
+	while m > 0 do
+		b[i] <-- m%2
+
+
+
+Example:
+
+	75093:
+
+	/2    %2
+	----- --
+	37546  1
+	18773  0
+	9386   1
+	4693   0
+	2346   1
+	1173   0
+
+
+Why does it work? 
+
+	Note how any number can be represented as:
+	m = b * (m/b) + m%b
+
+	Since integer division of a number drops the remainder. When you add the remainder back, you get the original number again.
+
+Generalizing for Base B:
+
+	Replace 2 by B.
+
+
+
+####Fractional numbers
+
+Example:
+
+26.375 = (11010.011)<sub>2</sub>
+
+The integer portion of the number can be calculated separately from the fractional part. The latter can be found by multiplying negative powers of 2.
+
+	0.375*8/8
+	=3/8
+	=11/1000
+
+
+
+
