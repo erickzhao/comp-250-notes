@@ -178,8 +178,8 @@ In reality, we analyze time as a function of the size of the inputs (which is th
 
 
 
-	Time(N) <= c + c'N + c'' <== c_1 + c_2 * N
-	Time(N) is O(N)
+	Time(N) <= c + c'N + c'' <= c_1 + c_2 * N
+	Time(N) is O(N).
 
 The constants c1 and c2 depend on the hardware that you run the algorithm on. The important thing to take home is that this algorithm has linear time, meaning that doubling the inputs will double time. This statement becomes more true for larger input sets.
 
@@ -187,36 +187,36 @@ The constants c1 and c2 depend on the hardware that you run the algorithm on. Th
 
 	// Part 1: actually multiplying
 
-	for j = 0 to N - 1 do //LINEAR TIME
-		carry <-- 0
-		for i = 0 to N - 1 do //LINEAR TIME
+	for j = 0 to N - 1 do 						  //LINEAR TIME
+		carry <-- 0 							  //CONSTANT TIME
+		for i = 0 to N - 1 do 					  //LINEAR TIME
 
-			prod        <-- (a[i] * b[j] + carry)
-			tmp[j][i+j] <-- prod % 10 
-			carry       <-- prod / 10 
+			prod        <-- (a[i] * b[j] + carry) //CONSTANT TIME
+			tmp[j][i+j] <-- prod % 10 			  //CONSTANT TIME
+			carry       <-- prod / 10 			  //CONSTANT TIME
 
 		end for
-		temp[j][N+j] 
+		temp[j][N+j]  				     		  //CONSTANT TIME
 	end for	
 
 	// Part 2: summing all the products together
 
 	carry <-- 0 
 
-	for i = 0 to 2 * N - 1 do //LINEAR TIME
-		sum <-- carry
-		for j = 0 to N - 1 do //LINEAR TIME
-			sum <-- sum + tmp[j][i]
+	for i = 0 to 2 * N - 1 do 					  //LINEAR TIME
+		sum <-- carry 							  //CONSTANT TIME
+		for j = 0 to N - 1 do 					  //LINEAR TIME
+			sum <-- sum + tmp[j][i] 			  //CONSTANT TIME
 		end for
-		r[i]  <-- sum % 10
-		carry <-- sum / 10
+		r[i]  <-- sum % 10 					      //CONSTANT TIME
+		carry <-- sum / 10 						  //CONSTANT TIME
 	end for
-	r[2*N] <-- carry
+	r[2*N] <-- carry 							  //CONSTANT TIME
 
 	Time(N) = c_1 + c_2*N + c_3*N^2
 	Time(N) is O(N^2)
 
-Since both parts of the algorithm have two linear for loops, they will be of quadratic time (since N x N = N<sup>2</sup>)
+Since both parts of the algorithm have two nested for loops with linear time, they will be of quadratic time (since N x N = N<sup>2</sup>).
 
 ####Big O Notation
 
@@ -268,22 +268,25 @@ This process is special to base 2 because we only have two options for each digi
 	i <-- 0
 	while m > 0 do
 		b[i] <-- m%2
-
-
+		m    <-- m/2
+		i    <-- i+1
+	end while
 
 Example:
 
-	75093:
+	75093 = 0b10101010111001000
 
-	/2    %2
-	----- --
-	37546  1
-	18773  0
-	9386   1
-	4693   0
-	2346   1
-	1173   0
-
+	/2    %2  | /2    %2
+	----- --  | ----- --
+	37546  1  | 73     1
+	18773  0  |	36     1
+	9386   1  | 18     0
+	4693   0  | 9      0
+	2346   1  | 4      1
+	1173   0  | 2      0
+	586    1  | 1      0
+	293    0  | 0      0
+	146    1  |
 
 Why does it work? 
 
@@ -295,8 +298,6 @@ Why does it work?
 Generalizing for Base B:
 
 	Replace 2 by B.
-
-
 
 ####Fractional numbers
 
