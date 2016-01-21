@@ -263,6 +263,7 @@ This process is special to base 2 because we only have two options for each digi
 ####Algorithm 3: Convert integer to binary
 
 **Input: a number _n_**
+
 **Output: the number _m_ expressed in base 2 using a bit array _b[]_**
 
 	i <-- 0
@@ -308,9 +309,87 @@ Example:
 The integer portion of the number can be calculated separately from the fractional part. The latter can be found by multiplying negative powers of 2.
 
 	0.375*8/8
-	=3/8
-	=11/1000
+	= 3/8
+	= 11/1000
+	= 1.1/100
+	= 0.11/10
+	= 0.011/1
+	= 0.011
 
+Certain fractions yield infinite decimal numbers. You can separate the fraction into a non-repeating part and a repeating part.
 
+####Binary representation in computers
 
+Computer memory does not expand or retract depending on the size of the data, so we always work with a fixed size of memory. The smallest unit of memory is a _byte_. A byte contains 8 bit registers for memory. 
 
+Data representation on a byte is circular because adding to the maximum value of (11111111)<sub>2</sub> resets the number to 00000000 (which is equivalent to all operations being modulo 256).
+
+* Unsigned representation: Each byte contains a positive value from 0 to 255 (2<sup>8</sup>-1).
+* Signed representation: Each byte contains a value from -128(-2<sup>7</sup>) to 127(2<sup>7</sup>-1). The greatest bit is used to tell the sign of the number.
+
+Here is a table of binary numbers:
+
+	Binary     Signed   Unsigned
+
+	00000000   0		0
+	00000001   1		1
+	. 		   .	    .
+	.          .		.
+	01111111   127	    127
+	10000000   128	   -128
+	10000001   129	   -127
+	.		   .        .
+	.		   .        .
+	11111111   255     -1
+
+On modern computers, we use more than one byte to represent our numbers. Thus, the bounds of our numbers would change depending on the amount of bits allocated to a number.
+
+Interesting example of the rollover:
+
+``` java
+
+//This loop runs to infinity!
+for (short s = 32767;s<32768;s++){
+	System.out.println(s);
+}
+	/*Output:
+
+	 32767
+	-32768
+	-32767
+	   ...
+	     0
+	     1
+	   ...
+	 32766
+	 32767
+	   ...
+	*/
+```
+In our computer memory, we store the location of our bytes in addresses. Address size varies depending on the number of bits of your computer.
+
+####How this works in Java
+
+In Java, we use different amounts of bytes for different primitive types.
+
+	Boolean 00000000 								(1 byte)
+
+	Byte    00000000 								(1 byte)
+
+	Char    00000000 								(1 byte)
+
+	Short   00000000 00000000 						(2 bytes)
+
+	Int     00000000 00000000 00000000 000000000	(4 bytes)
+
+	Long    00000000 00000000 00000000 000000000	(8 bytes)
+	     	00000000 00000000 00000000 000000000
+
+	Float   00000000 00000000 00000000 000000000	(4 bytes)
+
+	Double  00000000 00000000 00000000 000000000	(8 bytes)
+            00000000 00000000 00000000 000000000
+
+The address keeps track of the first byte, since the bytes used are adjacent to each other. For instance, the address of an integer will only track the first byte and will automatically know that the other three bytes are adjacent.
+
+For reference types in Java, we can use addresses themselves.
