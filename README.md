@@ -392,4 +392,99 @@ In Java, we use different amounts of bytes for different primitive types.
 
 The address keeps track of the first byte, since the bytes used are adjacent to each other. For instance, the address of an integer will only track the first byte and will automatically know that the other three bytes are adjacent.
 
-For reference types in Java, we can use addresses themselves.
+Array Algorithms
+================
+
+####Algorithm 4: Insertion Sort
+
+**Input: an array a[] with N elements that can be compared (<,=,>).**
+
+**Output: the array a[] containing the same elements in increasing order.)**
+
+	for k = 1 to N-1 do
+		tmp <-- a[k]
+		i   <-- k
+		while (i>0) & (tmp<a[i-1]) do
+			a[i] <-- a[i-1]
+			i    <-- i-1
+		end while
+		a[i] = tmp
+	end for
+
+Example:
+
+	a:[11|(13),2,5,21,99,12,51] tmp:13 //13 belongs after 11 so we don't move it
+	a:[11,13|(2),5,21,99,12,51] tmp:2  //2 is smaller than 11 & 13, so it gets shifted
+	a:[2,11,13|(5),21,99,12,51] tmp:5  //5 goes between 2 and 11
+	a:[2,5,11,13|(21),99,12,51] tmp:21 //21 is already sorted
+	a:[2,5,11,13,21|(99),12,51] tmp:99 //99 already sorted
+	a:[2,5,11,13,21,99|(12),51] tmp:12 //12 goes under 13
+	a:[2,5,11,12,13,21,99|(51)] tmp:51 //51 goes between 21 and 99
+
+	a:[2,5,11,12,13,21,51,99] //The array is now sorted.
+
+####Analysis of Insertion Sort
+
+The inner while loop will take between constant and linear time depending on how sorted the algorithm is. For example, if the array is already sorted, then the while loop will only have one iteration. If the array is sorted in reverse, then we will have the worst case instead.
+
+Since the outside for loops runs in linear time, the algorithm runs from linear to quadratic time.
+
+Best case: Ω(N) = N
+Worst case: O(N) = N<sup>2</sup>
+
+####Linked Lists
+
+A list is an ordered set of elements.
+
+Adding/removing elements from the beginning of an array is long and time-consuming, because you have to shift all subsequent elements. The same operations performed at the end are a lot easier.
+
+Rather than an array representation, a linked list would work a lot better. Individual cells in these lists contain both a value and a pointer to the next cell. We lose the nice organization of elements that we have in arrays, but there is information that allows us to chain elements together.
+
+The advantage of arrays is that you can go to a specific index just by its index number. With linked lists, you need to start from the head or the tail and work from there.
+
+Singly Linked Lists:
+
+	class SNode{ //an individual node
+		Type 		element
+		SNode 		next
+	}
+
+	class SLinkedList{
+		SNode		head;
+		SNode		tail;
+		int 		size;
+	}
+
+	addFirst(newNode){
+		newNode.next = head
+		head = newNode
+		size = size + 1
+	}
+
+	removeFirst(){
+		//tmp is used to maintain knowledge of the previous head.
+		tmp = head
+		head = head.next
+		tmp.next = null
+		size = size - 1
+	}
+
+	addLast(newNode){
+		tail.next = newNode
+		tail = tail.next
+		tail.next = null
+	}
+
+	removeLast(){
+		if (head == tail)
+			head = null
+			tail = null
+		else
+			tmp = head
+			while (tmp.next != tail){
+				tmp = tmp.next
+			}
+			tmp.next = null
+			tail = tmp
+	}
+
