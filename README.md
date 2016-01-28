@@ -432,7 +432,8 @@ Since the outside for loops runs in linear time, the algorithm runs from linear 
 Best case: Ω(N) = N
 Worst case: O(N) = N<sup>2</sup>
 
-####Linked Lists
+Linked Lists
+============
 
 A list is an ordered set of elements.
 
@@ -479,6 +480,7 @@ Singly Linked Lists:
 		if (head == tail)
 			head = null
 			tail = null
+			size = 0
 		else
 			tmp = head
 			while (tmp.next != tail){
@@ -486,5 +488,146 @@ Singly Linked Lists:
 			}
 			tmp.next = null
 			tail = tmp
+			size = size - 1
 	}
+
+####Java Generics
+
+A way of writing your code that allows you to specify your type right as you use it. The definition of your class would not depend on which element type you input into it.
+
+	Example: Singly linked lists
+
+	class SNode<E>{
+		E 			element;
+		SNode<E> 	next;
+			:
+	}
+
+	class SLinkedList<E>{
+		SNode<E>	head;
+		SNode<E>	tail;
+		int 		size;
+			:
+	}
+
+####Doubly Linked Lists
+
+Contain a link to the previous node as well as the next node. This helps to make navigating your list easier. The drawback of this is that they take more space. Thus, if you don't need to use the increased functionality of doubly linked lists, you should used singly linked lists instead. In essence, a doubly linked list is like having two singly linked lists going in opposite directions. 
+
+	class SNode<E>{
+		E 			element;
+		SNode<E> 	next;
+		SNode<E>	prev;
+			:
+	}
+
+	class SLinkedList<E>{
+		SNode<E>	head;
+		SNode<E>	tail;
+		int 		size;
+			:
+	}
+
+One operation that we consider often is finding an element from a Linked List the same way you would extract the element from an array.
+
+	getNode(i){ //FIX
+		if (i<size/2){
+			tmp = head;
+			index = size - 1;
+
+			while (index>i){
+				tmp = tmp.prev;
+				index--;
+			}
+		} else{
+			tmp = tail;
+			index = 0;
+
+			while (index<i){
+				tmp = tmp.prev;
+				index++;
+			}
+		}
+	}
+
+Another operation is removing a node from a Linked List.
+
+	remove(node){
+		node.prev.next = node.next;
+		node.next.prev = node.prev;
+		size = size - 1;
+	}
+
+Note how the above code does not work for the head and tail, because of the lack of next/prev in these nodes. The solution to this is to add a dummy head and a dummy tail to your list structure. (Another solution would be to test for if the node is a head or tail.)
+
+	class DlinkedList<E>{ //FIX
+		DNode<E>		dummyHead;
+		DNode<E>		dummyTail;
+		size = 0;
+	}
+
+####Arrays vs. Linked Lists
+
+	.				array 			S.L.L.			D.L.L.
+	.				-----			------			------
+	addFirst		N 				1				1
+	removeFirst		N 				1				1
+	addLast			1 				1 				1
+	removeLast		1 				N 				1
+	getNode(i)		1				i 				min(i, N/2 - i)
+
+####Linked Lists operations
+
+	add(i,element)	//Inserts element into i-th position
+	set(i,element)	//Sets the element at the i-th position to a specific value
+	remove(i)		//Removes element from i-th position
+	get(i)			//Returns the element from i-th position
+	clear()			//Removes all elements from the list
+	isEmpty()		//Returns a boolean indicating if the list is empty
+	size()			//Returns the size of the list
+
+####Java LinkedList
+
+* Implemented as a doubly linked list.
+* Node class is private to avoid messing with the data structure itself such that the operations fail.
+
+Linked list operation speeds:
+
+	add(element)			1
+	add(i,element)			n
+	set(i,element)			n
+	remove(i)				n
+	get(i)					n
+	clear()					1
+	isEmpty()				1
+	size()					1
+
+Note how add, set, remove, and get are expensive operations. For instance, if you wanted to print all the elements of a list in order, you would have an O(N<sup>2</sup>) operation. For this reason, you would want to implement some properties of arrays into linked lists, which brings us to...
+
+####Java ArrayList
+
+* Implementation using arrays of growing sizes
+* Cannot access using a[i] notation
+
+ArrayLists store the array, the size of the array, and the capacity of the array.
+Adding elements is done by creating a new array with double the capacity and adding the new element inside.
+The cost of doing so is actually **linear**. The extra cost of creating a new array is proportional to the amount of elements already in the array. The charge is constant per element, so the cost is **amortized constant time**.
+
+To get to an array of 2<sup>k</sup> length, you need to create arrays for all powers of 2 preceding it. The sum of these would actually be 2k.
+
+####LinkedList vs ArrayList
+
+	.						LinkedList		ArrayList
+	.						----------		---------
+	add(element)			1				1
+	add(i,element)			n 				n
+	set(i,element)			n 				1 //more efficient
+	remove(i)				n 				n
+	get(i)					n 				1 //more efficient
+	clear()					1 				1
+	isEmpty()				1 				1
+	size()					1 				1
+
+
+
 
