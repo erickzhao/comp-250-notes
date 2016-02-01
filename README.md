@@ -530,24 +530,25 @@ Contain a link to the previous node as well as the next node. This helps to make
 
 One operation that we consider often is finding an element from a Linked List the same way you would extract the element from an array.
 
-	getNode(i){ //FIX
+	getNode(i){
 		if (i<size/2){
 			tmp = head;
-			index = size - 1;
+			index = 0;
+
+			while (index<i){
+				tmp = tmp.next;
+				index++;
+			}
+		} else{
+			tmp = tail;
+			index = size - 1
 
 			while (index>i){
 				tmp = tmp.prev;
 				index--;
 			}
-		} else{
-			tmp = tail;
-			index = 0;
-
-			while (index<i){
-				tmp = tmp.prev;
-				index++;
-			}
 		}
+		return tmp;
 	}
 
 Another operation is removing a node from a Linked List.
@@ -560,10 +561,10 @@ Another operation is removing a node from a Linked List.
 
 Note how the above code does not work for the head and tail, because of the lack of next/prev in these nodes. The solution to this is to add a dummy head and a dummy tail to your list structure. (Another solution would be to test for if the node is a head or tail.)
 
-	class DlinkedList<E>{ //FIX
+	class DLinkedList<E>{
 		DNode<E>		dummyHead;
 		DNode<E>		dummyTail;
-		size = 0;
+		int 			size;
 	}
 
 ####Arrays vs. Linked Lists
