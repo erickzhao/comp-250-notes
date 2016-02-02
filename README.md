@@ -629,6 +629,174 @@ To get to an array of 2<sup>k</sup> length, you need to create arrays for all po
 	isEmpty()				1 				1
 	size()					1 				1
 
+Abstract Data Types
+-------------------
+
+An Abstract Data Type (ADT) is an abstraction of a data structure: no coding is involved.
+
+It specifies:
+* What can be stored in it
+* What operations can be done on/by it
+
+There are a lot of formalized and standardized ADTs in Java. They are implemented through an interface.
+
+
+Stacks
+------
+A **stack** is a container of objects athat are inserted and removed accoridng to the last-in-first-out principle.
+Objects can be inserted at any time, but only this least(most recently inserted) object can be removed.
+Inserting an item is known as pushing onto the stack.
+Popping off the stack is synonymous with removing an item.
+
+####Methods
+
+Two main methods:
+
+* push(o): Inserts object o onto top of stack.
+* pop(): Removes the top object of stack and returns it. If the stack is empty, then an error occurs.
+
+
+The following methods should also be defined:
+
+* size(): returns the number of objects in stack
+* isEmpty(): returns a boolean indicating if sstack is empty
+* top(): returns the top object of the stack, without removing it; if the stack is empty then an error occurs.
+
+####Examples
+
+Simple push/pop operations on an empty stack:
+
+	1. push(3)		
+	2. push(6)
+	3. push(4)
+	4. push(1)							1		5
+	5. pop()						4	4	4	4	4
+	6. push(5)					6	6	6	6	6	6	6
+	7. pop()				3	3	3	3	3	3	3	3	
+	8. pop()				-	-	-	-	-	-	-	-
+	.						1.	2.	3.	4.	5.	6.	7.	8.
+
+
+Mathematical operations: 
+
+	3 + (4 - x) * 7 + (y - 2 * (2 + x))
+	
+												(
+									(		(	(	(	
+								-	-	-	-	-	-	-
+
+1. Push an open parenthesis on the stack.
+2. Keep going until you see another opening parenthesis or a closing parenthesis.
+3. If you see a closing one, pop the stack. If you see an opening one, you push it onto the stack.
+
+If the stack contains any objects at the end, it means that something was wrong with the parenthesis matching.
+
+To actually calculate this operation, you'd need two stacks:
+
+	3 + (4 - x) * 7 + (y - 2 * (2 + x))
+
+	Operator stack:
+
+																						+	+
+																				(	(	(	(	
+																			*	*	*	*	*	*
+						-	-	-									-	-	-	-	-	-	-	-	-
+				(	(	(	(	(		*	*				(	(	(	(	(	(	(	(	(	(	(	
+			+	+	+	+ 	+	+	+	+	+	+		+	+	+	+	+	+	+	+	+	+	+	+	+
+	--	--	--	--	--	--	--	--	--	--	--	--	--	--	--	--	--	--	--	--	--	--	--	--	--	--
+
+	Number stack:
+
+																						3
+																				2	2	2	5
+							1	1			7						2	2	2	2	2	2	2	10
+					4	4	4	4	3	3	3	21				6	6	6	6	6	6	6	6	6	-4
+		3	3	3	3	3	3	3	3	3	3	3	24	24	24	24	24	24	24	24	24	24	24	24	24	20
+	--	--	--	--	--	--	--	--	--	--	--	--	--	--	--	--	--	--	--	--	--	--	--	--	--	--
+
+When an operator wants to be pushed onto the stack, but has lower priority than the top of the stack, the stack gets popped and the operation is performed on the top of the number stack.
+
+This process in pseudocode:
+
+	t = gettoken()
+	while type(t)!=eol do
+		if type(t)=number then...
+		if type(t)=operator then...
+		if t="(" then...
+		if t=")" then...
+		t=gettoken()
+	end while
+
+	while not isemptyO() do
+		op=popO()
+		arg2=popA()
+		arg1=popA()
+		pushA(exec(arg1,op,arg2))
+	end while
+
+	return popA()
+
+	//Processing arithmetics
+
+	if type(t) == number then pushA(t)
+
+	if type(t) == operator then
+		if prio(t) <= prio(topO())
+			then op = popO()
+				 arg2 = popA()
+				 arg1 = popA()
+				 pushA(exec(arg1,op,arg2))
+
+			pushO(t)
+
+	if t == "(" then pushO(t)
+
+	if t == ")" then
+		op = popO()
+		while op != "(" do
+			arg2 = popA()
+			arg1 = popA()
+			pushA(exec(arg1,op,arg2))
+			op = popO()
+		end while
+
+
+
+
+A bunch of different brackets:
+
+	(	(	[	]	)	)	[	]	{	[	]	}
+
+
+
+
+
+		(
+	(	(	(	(	(	
+	-	-	-	-	-	-	-	-	-	-	-	-
+
+A bunch of different (unmatching) brackets:
+
+			( 	( 	[ 	) 	] 	) 	[ 	[ 	] 	] 	{ 	[ 	] 	} 
+	
+
+							//The stack fails because the element popped from the stack
+					[		//doesn't correspond to the next bracket.
+				(	(
+			(	(	(
+		-	-	-	-	x
+
+HTML uses a stack for its markup tags, which transform plain text into what you see on a webpage. 
+For instance:
+
+	<HTML><HEAD><TITLE></TITLE></HEAD><BODY><CENTER>...
+
+
+
+						<TITLE>							<CENTER>
+				<HEAD>	<HEAD>	<HEAD>			<BODY>	<BODY>
+		<HTML>	<HTML>	<HTML>	<HTML>	<HTML>	<HTML>	<HTML>
+		------	------	-------	------	------	------	-------- ...
 
 
 
