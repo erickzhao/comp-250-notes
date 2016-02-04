@@ -630,7 +630,7 @@ To get to an array of 2<sup>k</sup> length, you need to create arrays for all po
 	size()					1 				1
 
 Abstract Data Types
--------------------
+===================
 
 An Abstract Data Type (ADT) is an abstraction of a data structure: no coding is involved.
 
@@ -760,15 +760,9 @@ This process in pseudocode:
 			op = popO()
 		end while
 
-
-
-
 A bunch of different brackets:
 
 	(	(	[	]	)	)	[	]	{	[	]	}
-
-
-
 
 
 		(
@@ -797,6 +791,106 @@ For instance:
 				<HEAD>	<HEAD>	<HEAD>			<BODY>	<BODY>
 		<HTML>	<HTML>	<HTML>	<HTML>	<HTML>	<HTML>	<HTML>
 		------	------	-------	------	------	------	-------- ...
+
+####Stacks in the Java Virtual Machine
+
+* Each process running in a Java program has its own Java Method Stack
+* Each time a method is called, it is pushed onto the stack.
+* The choice ofa stack for this operation allows Java to do several useful things
+	- Perform recursive method calls
+	- Print stack traces to locate an error
+
+Each item on the stack keeps count of the method information, as well as something called a program counter. This shows the line where the method has been interrupted by another method that was added on top of it in the stack. Once the other method is removed, the program reverts to the line saved in the program counter.
+
+####Application: Time Series
+
+The span *s<sub>i</sub>* of a stock's price on a certain day *i* is the max number of consecutive days (up to the current day) the price of the stock has been less than or equal to its price on day *i*.
+
+There is a straightforward (but inefficient) way to compute the span of a stock on each of *n* days. You can just look back from each day individually. This would cause you to have two loops, meaning that your algorithm would have a time of **O(n<sup>2</sup>)**.
+
+A stack would help make this a lot more efficient. 
+
+We see that *s<sub>i</sub>** on day *i* can be easily computed if we know the closest day preceding *i*, such that the price is greater than on that day than on day *i*. If such a day exists, let's call it *h(i)*. Otherwise, we conventionally define *h(i)*=-1. The span is now computed as *s<sub>i</sub>*=*i*-*h(i)*.
+
+We use a stack to keep track of *h(i)*.
+
+Queues
+------
+
+* A queue differs from a stack in that its insertion and removal routines follow the first-in-first-out (FIFO) principle.
+*
+* 
+
+The queue has two fundamental methods:
+* enqueue(o): Inserts an object o at rear of queue
+* dequeue(): Removse object from front of queuee and returns it. An error occurs if queue is empty.
+
+There are also a couple more optional methods:
+
+
+Example:
+
+	Operation 	State
+	---------	-----
+	add(a)		a
+	add(b)		ab
+	remove()	b
+	add(c)		bc
+	add(d)		bcd
+	add(e)		bcde
+	remove()	cde
+	add(f)		cdef
+	remove()	def
+	add(g)		defg
+
+Queues are more interesting to implement than stacks because of how the insertion and extraction points are on opposite ends.
+
+####Queues as arrays
+
+You could implement queues in both LinkedLists and Arrays. However, there is no noticeable advantage for having a queue in a list, so it's simpler to just use an array.
+
+To implement it in an array, we store in which indices the Head and the Tail are located. When an element is added, we store it in the next empty index, and the tail now points to the index. Likewise, when an element is removed, we remove the element at the head, and the head now points to the next index.
+
+The queue is only full when it is equal to the size of the array it is contained in.
+
+A Java implementation:
+
+
+When the queue array runs out of space, we transfer it into a bigger array:
+
+
+Running Times and Asymptotic Notations
+======================================
+
+Computational Tractability
+--------------------------
+
+A quote from Charles Babbage:
+>As soon as an Analytic Engine exists, it will necessarily guide the future course of the science. Whenever any result is sought by its aid, the question will arise - By what course of calculation can these results be arrive by the machine in the shortest time?
+
+
+When we analyze an algorithm, we focus our attention on the time consumed by an algorithm. Computational tractability is the measurement of how easily an operation can be done.
+
+####Brute force
+For many non-trivial problems, there is a natural brute force search algorithm that tries every possible solution.
+* Typically takes 2<sup>N</sup> time or worse for inputs of size N.
+* Unacceptable in practice.
+
+####Desirable scaling property
+When the input size doubles, the algorithm should only slow down by some constant factor C. This is equivalent to saying that there exist constants a>0 and d>0 such that on every input of size N, its running time is bounded by a N<sup>d</sup> steps.
+
+**Definition**: An algorithm is **poly-time** if the above scaling property holds.
+
+####Worst case analysis
+The worst case is the upper bound on the running time of an algorithm on any input of size N.
+* Generally captures efficienct in practice
+* Seems draconian, but it's hard to find an effective alternative
+
+####Average case analysis
+The average case is the bound on running time of an algorithm on a **random** input as a function of input size N.
+* Hard (or impossible) to accurately model real instances by random distribution.
+* Algorithm tuned for a certain distribution may perform poorly on other inputs.
+
 
 
 
