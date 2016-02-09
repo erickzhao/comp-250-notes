@@ -806,6 +806,8 @@ Each item on the stack keeps count of the method information, as well as somethi
 
 The span *s<sub>i</sub>* of a stock's price on a certain day *i* is the max number of consecutive days (up to the current day) the price of the stock has been less than or equal to its price on day *i*.
 
+![](http://i.imgur.com/QZ32TZ3.png)
+
 There is a straightforward (but inefficient) way to compute the span of a stock on each of *n* days. You can just look back from each day individually. This would cause you to have two loops, meaning that your algorithm would have a time of **O(n<sup>2</sup>)**.
 
 A stack would help make this a lot more efficient. 
@@ -814,18 +816,25 @@ We see that *s<sub>i</sub>** on day *i* can be easily computed if we know the cl
 
 We use a stack to keep track of *h(i)*.
 
+![](http://i.imgur.com/kqy5d4R.png)
+
 Queues
 ------
 
 * A queue differs from a stack in that its insertion and removal routines follow the first-in-first-out (FIFO) principle.
-*
-* 
+* Elements may be inserted at any time, but only the element which has been in the queue the longest may be removed.
+* Elements are inserted at the rear (enqueued) and removed from the front (dequeued)
 
 The queue has two fundamental methods:
+
 * enqueue(o): Inserts an object o at rear of queue
-* dequeue(): Removse object from front of queuee and returns it. An error occurs if queue is empty.
+* dequeue(): Removes object from front of queue and returns it. An error occurs if queue is empty. *An error occurs if queue is empty.*
 
 There are also a couple more optional methods:
+
+* size(): Returns number of objects in the queue
+* isEmmpty(): Returns a boolean value that indicates whether the queue is empty.
+* front(): Returns (without removing) the element in front of the queue. *An error occurs if queue is empty.*
 
 
 Example:
@@ -855,8 +864,12 @@ The queue is only full when it is equal to the size of the array it is contained
 
 A Java implementation:
 
+[INSERT STUFF]
+
 
 When the queue array runs out of space, we transfer it into a bigger array:
+
+[INSERT STUFF]
 
 
 Running Times and Asymptotic Notations
@@ -873,6 +886,7 @@ When we analyze an algorithm, we focus our attention on the time consumed by an 
 
 ####Brute force
 For many non-trivial problems, there is a natural brute force search algorithm that tries every possible solution.
+
 * Typically takes 2<sup>N</sup> time or worse for inputs of size N.
 * Unacceptable in practice.
 
@@ -883,13 +897,67 @@ When the input size doubles, the algorithm should only slow down by some constan
 
 ####Worst case analysis
 The worst case is the upper bound on the running time of an algorithm on any input of size N.
-* Generally captures efficienct in practice
+
+* Generally captures efficiency in practice
 * Seems draconian, but it's hard to find an effective alternative
 
 ####Average case analysis
 The average case is the bound on running time of an algorithm on a **random** input as a function of input size N.
+
 * Hard (or impossible) to accurately model real instances by random distribution.
 * Algorithm tuned for a certain distribution may perform poorly on other inputs.
+
+####Worst case polynomial-time
+
+**Definition**: An algorithm is **efficient** if its running time is polynomial. This is justified by practice.
+**Caveat**: Although 6.02E23 x N<sup>20</sup> is technically poly-time, it would be useless in practice.
+In practice, poly-time algorithms that people develop almost always have low constants and low exponents. Breaking through the exponential barrier of brute force typically exposes some crucial structure of the problem.
+Exceptions: 
+
+* Some poly-time algorithms do have high constants or exponents, and are useless in practice. 
+* Some exponential-time (or worse) algortithms are widely used because the worst-case instances seem to be rare.
+
+Example: Primality Testing
+
+* If you have an N-bit number, it is a 2<sup>N</sup> number. Thus, doing operations to the square root of our number will still yield (sqrt(2))<sup>N</sup> running time.
+* There have been improvements that have led to better running times such as log<sup>4</sup>N (Miller). We have not yet found a proof to the conjecture behind Miller's algorithm.
+* Another algorithm by Miller's colleague Rabin would give log<sup>3</sup>N, but would be wrong on primes a quarter of the time.
+* One guaranteed test discovered has had log<sup>12</sup>N, which is slow to the point of impracticality. Rabin's algorithm would in practice be better because of the insane running time from the foolproof algorithm.
+
+Why does this matter?
+
+[INSERT IMAGE]
+
+####Comp Sci approach to problem solving
+
+* If my boss formulates a problem to be sovled urgently, can I write a program to efficiently solve this problem?
+* Are there some problems that cannot be solved at all? Are there problems that cannot be solved efficiently?
+
+####Asymptotic order of Growth and Notation
+
+* Upper Bounds: T(n) is O(f(n)) if there exist constants c > 0 and n<sub>0</sub> ≥ 0 such that for all n ≥ n<sub>0</sub> we have T(n) ≤ c x f(n).
+* Lower Bounds: T(n) is Ω(f(n)) if there exist constants c > 0 and n<sub>0</sub> ≥ 0 such that for all n ≥ n<sub>0</sub> we have T(n) ≥ c x f(n).
+* Tight Bounds: T(n) is Θ(n) if T(n) is both O(f(n)) and Ω(f(n)).
+
+Example: T(n) = 32n<sup>2</sup> + 17n + 32
+
+* T(n) is O(n<sup>2</sup>) since there exists c = 81 and n<sub>0</sub> = 1 such that for all n ≥ 1 we have T(n) ≤ 32n<sup>2</sup> + 17n<sup>2</sup> + 32n<sup>2</sup> = 81n<sup>2</sup>.
+* T(n) is Ω(n<sup>2</sup>) since there exists c = 1 and n<sub>0</sub> = 0 such that for all n ≥ 1 we have T(n) ≥ n<sup>2</sup>.
+
+**Note:** Using T(n) = O(f(n)) is wrong because the expression doesn't actually denote equality.
+
+**Meaningless statement:** "Any comparison-based sorting algorithm requires at least O(n log n) comparisons."
+
+* The statement uses upper bound to describe a lower bound.
+* The constant function f(n)=1 is O(n log n).
+* The statement doesn't type-check.
+
+**Properties (Apply for O, Ω, and Θ)**
+
+* Transitivity: if f is O(g) and g is O(h), then f is O(h).
+* Additivity: if f is O(h) and g is O(h), then f + g is O(h).
+
+
 
 
 
