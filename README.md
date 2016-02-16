@@ -862,15 +862,27 @@ To implement it in an array, we store in which indices the Head and the Tail are
 
 The queue is only full when it is equal to the size of the array it is contained in.
 
-A Java implementation:
+An array implementation:
 
-[INSERT STUFF]
+	enqueue(element){
+		if (size == length)
+			increase length of array
+		a[(head+size)%length]=element
+		size++
+	}
 
+	dequeue(){
+		out = a[head]
+		head = (head+1)%length
+		size--
+		return out
+	}
 
 When the queue array runs out of space, we transfer it into a bigger array:
 
-[INSERT STUFF]
-
+	create a bigger array
+	for i = 0 to length-1
+		big[i] = small[(head+i)%small.length]
 
 Running Times and Asymptotic Notations
 ======================================
@@ -926,14 +938,15 @@ Example: Primality Testing
 
 Why does this matter?
 
-[INSERT IMAGE]
+![](http://i.imgur.com/OV8chh5.png)
 
 ####Comp Sci approach to problem solving
 
 * If my boss formulates a problem to be sovled urgently, can I write a program to efficiently solve this problem?
 * Are there some problems that cannot be solved at all? Are there problems that cannot be solved efficiently?
 
-####Asymptotic order of Growth and Notation
+Asymptotic order of Growth and Notation
+---------------------------------------
 
 * Upper Bounds: T(n) is O(f(n)) if there exist constants c > 0 and n<sub>0</sub> ≥ 0 such that for all n ≥ n<sub>0</sub> we have T(n) ≤ c x f(n).
 * Lower Bounds: T(n) is Ω(f(n)) if there exist constants c > 0 and n<sub>0</sub> ≥ 0 such that for all n ≥ n<sub>0</sub> we have T(n) ≥ c x f(n).
@@ -952,13 +965,282 @@ Example: T(n) = 32n<sup>2</sup> + 17n + 32
 * The constant function f(n)=1 is O(n log n).
 * The statement doesn't type-check.
 
-**Properties (Apply for O, Ω, and Θ)**
+####Properties
 
 * Transitivity: if f is O(g) and g is O(h), then f is O(h).
 * Additivity: if f is O(h) and g is O(h), then f + g is O(h).
 
+Note: These apply for O, Ω, and Θ.
+
+####Frequently used functions
+
+* Polynomials: a<sub>0</sub>+a<sub>1</sub>n+...+a<sub>d</sub>n<sup>d</sup> is Θ(n<sup>d</sup>) if a<sub>d</sub>>0.
+* Polynomial time: Running time is O(n<sup>d</sup>) for some constant *d* independent of the input size *n*.
+* Logarithms: O(log<sub>a</sub>n) = O(log<sub>b</sub>n) for any constants a,b > 0.
+	- For every x > 0, log n is O(n<sup>x</sup>). (i.e. every log grows slower than every polynomial.)
+* Exponentials. For every r > 1 and every d > 0, n<sup>d</sup> is O(r<sup>n</sup>). (i.e. every exponential grows faster than every polynomial.)
+
+####Asymptotic notation
+
+Sometimes, one can also obtain an asymptotically tight bound directly by computing a limit as *n* goes to infinity. Essentially, if the ratio of functions f(n) and g(n) converges to a positive constant as *n* goes to infinity, then f(n) is Θ(g(n)).
+
+![](http://i.imgur.com/7CB8VLS.png)
+
+####O(n log n) time
+
+* Also known as **linearithmetic** time. This time complexity arises in divide-and-conquer time.
+* Sorting: Mergesort and Heapsort are sorting algorithms that perform O(n log n) comparisons.
+* Largest Empty Interval: Given n time-stamps x<sub>1</sub>,...,x<sub>n</sub> on which copies of a file arrive at a server, what is the largest interval of time when no copies of the file arrive?
+* O(n log n) solution: Sort the time-stamps. Scan the sorted list in order, identifying the maximum gap between successive time-stamps.
+
+####Quadratic time
+
+* Enumerates all pairs of elements.
+* Closest pairs of points: Given a list of n points in the plane (x<sub>1</sub>,y<sub>1</sub>),...,(x<sub>n</sub>,y<sub>n</sub>), find the closest pair.
+* Quadratic solution: For each pair of elements, determine whether they are smaller than the current minimum.
+
+Pseudocode:
+
+	min <-- (x1-x2)^2 + (y1 - y2)^2
+
+	for i = 1 to n{
+		for j = i+1 to n{
+			d <-- (x[i]-x[j])^2+(y[i]-y[j])^2
+			if (d<min)
+				min <-- d
+		}
+	}
+
+####Cubic time
+
+* Enumerates all triples of elements.
+* Set disjointness: Given n sets S<sub>1</sub>,...,S<sub>n</sub> each of which is a subset of 1,2,...,n, is there some pair of these which are disjoint?
+* Cubic time solution: For each pair of sets, determine if they are disjoint.
+
+Pseudocode:
+
+	foreach set Si{
+		foreach other set Sj{
+			determine whether p also belongs to Sj
+		}
+		if (no element of Si belongs to Sj)
+			report that Si and Sj are disjoint
+	}
+
+####Polynomial time
+
+* Independent set of size k: Given a graph, are there k nodes such that no two are joined by an edge?
+* Polynomial solution: Enumerate all subsets of k nodes.
+
+Pseudocode:
+
+	foreach subset S of k nodes{
+		check whether S is an independent set
+		if (S is an independent set){
+			report S is an independent set
+		}
+	}
+
+####Exponential time
+
+* Independent set: Given an graph, what is the max size of an independent size?
+* O(n^2 2^n) solution: Enumerate all subsets.
+
+Pseudocode:
+
+	s* <-- NULL
+
+	foreach subset S of nodes{
+		check whether S is an independent set
+
+		if (S is largest independnet set seen so far){
+			update s*<---S
+		}
+	}
+
+Induction and Recursion
+=======================
+
+Induction proofs
+----------------
+
+####Process
+
+**Predicate.**
+P(n): f(n) = some formula in n
+
+**Statement.**
+for all n ≥ 1, P(n) is true.
+
+**Proof.**
+* Base case: prove that P(1) is true.
+* Induction step: Show that for all n ≥ 1, P(n) being true implies P(n+1) being true as well.
+
+####Example
+
+Predicate: P(n): 1+2+...+n = n(n+1)/2
+
+Base case: When n = 1, we have 1 = 2/2.
+
+Induction step: let n ≥ 1. Assume for induction hypothesis that P(n) is true. We show P(n+1) is true as well:
+
+	1+2+...+n+(n+1) = n(n+1)/2+n+1
+					= (n+1)(n/2)+1
+					= (n+1)(n+2)/2
+
+**Note: Although the predicate works, using Σ summation notation is a lot more formal.**
+
+Iteration vs Recursion
+----------------------
+
+f(n) = 1 + 2 + ... + n
+
+	f(n)
+	sum <-- 0
+	for i = 2 to n {
+		sum <-- sum+i
+	}
+	return sum
+
+f(n) = 0 if n=0
+f(n) = f(n-1)+1 if n>0
+
+	f(n)
+	if n = 0 (return 0)
+	else {return f(n-1)+n}
+
+####Redoing the induction proof with recursion
+
+Predicate.
+f(n) = n(n+1)/2
+Statement.
+
+Base case:
 
 
+Generalized induction proofs
+----------------------------
+
+####Process
+
+**Predicate.**
+P(n): f(n) = some formula in n
+
+**Statement.**
+for all n ≥ 1, P(n) is true.
+
+**Proof.**
+* Base case: prove that P(1) is true.
+* Induction step: Let n ≥ 1. Show that P(1)...P(n) being true implies P(n+1) being true as well.
+
+####Example: Fibonacci Sequence
+
+	fib(n) = n 					 if n≤1
+	fib(n) = fib(n-1) + fib(n-2) if n>1
+
+	//Recursive implementation:
+
+	fib(n)
+	if n<2 {return n}
+	else {return fib(n-1)+fib(n-2)}
+
+	//Iterative implementation:
+
+	fib(n)
+	a<--0
+	b<--1
+	for i = 1 to n{
+		b <-- a + b
+		a <-- b - a
+	}
+	return a
+
+**Note: The recursive implementation is very inefficient, as we already compute smaller values in our Fibonacci sequence while finding larger values, leading to many repeat computations (the number of which actually follows the Fibonacci sequence itself, interestingly enough). On the other hand, the iterative version carries the values of the previous Fibonacci values, which leads to each computation being made only once.**
+
+####Example 1
+
+**Statement.**
+for all n ≥ 0, P(n): fib(n) ≤ 2<sup>n</sup> is true.
+
+**Proof.**
+* Base case: 0 ≤ 1 is true and 1 ≤ 2 is true.
+* Induction step: Let n ≥ 1. Show that P(1)...P(n) being true implies P(n+1) being true as well:
+
+	fib(n+1) = fib(n)+fib(n-1)
+			 ≤ 2^n + 2^(n-1)
+			 ≤ 2^(n-1)*3
+			 < 2^(n+1)
+
+####Example 2
+
+**Statement.**
+for all n ≥ 1, P(n): fib(n) ≤ ϕ<sup>n</sup> is true.
+
+**Proof.**
+* Base case: 1 ≤ ϕ is true and 1 ≤ ϕ<sup>2</sup> is true. (Only if ϕ ≥ 1.)
+* Induction step: Let n ≥ 1. Show that P(1)...P(n) being true implies P(n+1) being true as well:
+
+	fib(n+1) = fib(n)+fib(n-1)
+			 ≤ ϕ^n + ϕ^(n-1)
+			 ≤ ϕ^(n-1)*(ϕ+1)
+			 < ϕ^(n+1)
+
+	(Only if 0 ≤ ϕ^2-ϕ-1)
+
+####Example 3
+
+**Statement.**
+for all n ≥ 1, P(n): fib(n) ≥ ϕ<sup>n-2</sup> is true.
+
+**Proof.**
+* Base case: 1 ≥ ϕ<sup>-1</sup> is true and 1 = ϕ<sup>0</sup> is true. (Only if ϕ ≥ 1.)
+* Induction step: Let n ≥ 1. Show that P(1)...P(n) being true implies P(n+1) being true as well:
+
+	fib(n+1) = fib(n)+fib(n-1)
+			 ≥ ϕ^(n-2) + ϕ^(n-3)
+			 ≥ ϕ^(n-3)*(ϕ+1)
+			 ≥ ϕ^(n-1)
+
+	(Only if 0 ≥ ϕ^2-ϕ-1)
+
+####Weak Binet Formula
+
+For all n ≥ 1, fib(n) ≤ ϕ<sup>n</sup> is true.
+(Only if 0 ≤ ϕ<sup>2</sup>-ϕ-1)
+For all n ≥ 1, fib(n) ≥ ϕ<sup>n</sup> is true.
+(Only if 0 ≤ ϕ<sup>2</sup>-ϕ-1)
+
+So these statements are both true only if  0 = ϕ<sup>2</sup>-ϕ-1.
+
+ϕ here is the Golden Ratio.
+
+Recursive Algorithms
+--------------------
+
+There are many algorithms that are easier to think of recursively than iteratively. An example of this is Mergesort.
 
 
+####Mergesort
+
+#####Overview
+* Divide array into two halves.
+* Recursively sort each half.
+* Merge two halves to make sorted whole.
+
+![](http://i.imgur.com/AfjDuk5.png)
+
+#####Merge step
+* Keep track of smallest element in each sorted half.
+* Insert smallest of two elements into auxiliary array.
+* Repeat until done.
+
+#####Recurrence relation
+
+Definition: T(n) = number of comparisons to mergesort an input of size n.
+
+Mergesort recurrence:
+
+![](http://i.imgur.com/UsFM7ww.png)
+
+Solution: T(n) is O(n log n).
 
