@@ -1244,3 +1244,58 @@ Mergesort recurrence:
 
 Solution: T(n) is O(n log n).
 
+
+####Tower of Hanoi
+
+**Goal:** Move the n discs from stack #3 to stack #2.
+
+![](http://www.mathcs.emory.edu/~cheung/Courses/170/Syllabus/13/FIGS/hanoi03.gif)
+
+**Constraints:**
+
+* Only remove one disk at a time.
+* Cannot stack a larger disk on top of a smaller disk.
+
+**Inductive solution:**
+
+Hanoi(n,S3,S2,S1) // n>=1
+
+Base case (n = 1): move disk 1 from stack 3 to stack 2.
+
+	if n>1, then Hanoi(n-1,S3,S1,S2)
+	move disk n from S3 to S2
+	if n>1, then Hanoi(n-1,S1,S2,S3)
+
+
+Example: If we have 5 disks
+
+	Hanoi(5,S3,S2,S1) //n>=1
+
+	if 5>1 then Hanoi(4,S3,S1,S2)
+		if 4>1 then Hanoi (3,S3,S2,S1)
+			if 3>1 then Hanoi (2,S3,S1,S2)
+				if 2>1 then Hanoi (1,S3,S2,S1)
+					move disk 1 from S3 to S2
+
+All these executions are stacked on the execution stack that compiles all processes.
+
+**Recurrence relation:**
+
+Def. T(n) = number of moves to Hanoi of n.
+
+Hanoi recurrence.
+
+[INSERT IMAGE]
+
+Solution. T(n) is O(2<sup>n</sup>).
+
+Proofs: [INSERT PROOF]
+
+Master Theorem
+--------------
+
+[INSERT IMAGE]
+
+####Proof by recursion tree
+
+[INSERT IMAGE?]
