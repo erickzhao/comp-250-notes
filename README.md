@@ -1299,3 +1299,51 @@ Master Theorem
 ####Proof by recursion tree
 
 [INSERT IMAGE?]
+
+####Three cases
+[INSERT IMAGE]
+
+Divide and conquer algorithms
+-----------------------------
+
+Gist:
+
+* Break up problem into several parts
+* Solve each part recursively
+* Combine solutions to sub-problems in overall solution
+
+####Binary Search
+
+Input: array *a*, value *v*, lower and upper bound indices *low*, *high*.
+Output: the index *i* of element *v* (if present), -1 (if *v* is not present).
+
+	if low==high then
+		if a[low]==v then
+			return low
+		else
+			return -1
+		end if
+	else
+		mid <--(low+high)/2
+		if v<=a[mid] then
+			return binarySearch(a,v,low,mid)
+		else
+			return binarySearch(a,v,mid+1,high)
+		end if
+	end if
+
+Recurrence relation
+
+[INSERT IMAGE]
+
+####Integer Multiplication (Revisited)
+
+#####The original O(n<sup>2</sup>) grade-school multiplication algorithm
+
+To multiply two n-digit integers:
+
+* Multiply four n/2-digit integers.
+* Add two n/2-digit integers, and shift to obtain result.
+
+#####Karatsuba multiplication
+
