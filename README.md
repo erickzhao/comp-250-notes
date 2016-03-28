@@ -1308,6 +1308,7 @@ If f(n) is Ω(n<sup>L</sup>) for some constant L > log<sub>b</sub>a, T(n) is ϴ(
 If f(n) is ϴ(n<sup>log<sub>b</sub>a</sup> log<sup>k</sup>n), for some k ≥ 0, T(n) is ϴ(n<sup>log<sub>b</sub>a</sup> log<sup>k+1</sup>n).
 
 ####Recursion tree illustration
+
 ![](http://i.imgur.com/3m3A82T.png)
 
 
@@ -1456,14 +1457,17 @@ These data structures store the vertices and edges of a graph into two container
 
 ####Edge List
 The edge list structure stores the vertices and edges into unsorted sequences. It's the easiest to implement. Finding the edges incident on a given vertex is inefficient since it requires examining the entire edge sequence.
+
 ![](http://i.imgur.com/wvYjozs.png)
 
 ####Adjacency List
 The adjacency list of a vertex stores all adjacent vertices. You can construct a graph with the adjacency lists of all vertices. The adjacency list extends the edge list structure by adding incidence containers to each vertex.
+
 ![](http://i.imgur.com/3qelxo6.png)
 
 ####Adjacency Matrix
 The adjacency matrix is a matrix M with entries for all pairs of vertices. Boolean values indicate whether or not there are existing edges between two vertices. Notice how for undirected edges, the matrix is symmetric.
+
 ![](http://i.imgur.com/qtoq11x.png)
 
 Trees
@@ -1494,12 +1498,15 @@ Binary Trees
 Examples: 
 
 *Arithmetic expression*
+
 ![](http://i.imgur.com/al2HBtI.png)
 
 *Decision trees*
+
 ![](http://i.imgur.com/3JIizeB.png)
 
 ####Properties
+
 ![](http://i.imgur.com/vJX7oDN.png)
 
 ####Methods
@@ -1559,6 +1566,7 @@ Back edges: Edges leading to a visited node
 ![](http://i.imgur.com/ZTHQS6H.png)
 
 *Animation*:
+
 ![](http://i.imgur.com/QcWrNK2.gif)
 
 ####Determining Incident Edges
@@ -1604,6 +1612,7 @@ BFS traverses a connected component of a graph, and in doing so defines a spanni
 * The label of any vertex *v* corresponds to the length of the shortest path from *s* to *v*.
 
 *Animation*:
+
 ![](http://i.imgur.com/cpoHGKe.gif)
 
 ####Algorithm
@@ -1725,6 +1734,7 @@ Algorithm TreeSearch(k,v):
 ![](http://i.imgur.com/0nJvYyR.png)
 
 * If w is internal, we know another item with key k is stored at w. We call the algorithm recursively starting at T.rightChild(w) or T.leftChild(w).
+
 ![](http://i.imgur.com/pa0h1xK.png)
 
 ####Removal
@@ -1784,8 +1794,11 @@ One might be tempted to implement heaps as trees. The problem with this is that 
 
 There are two cases for insertion:
 * If the last node is the right child of every node going back to the root, then we know it's the last element of the level, and we have to start filling up the last level.
+
 ![](http://i.imgur.com/LTeefnl.png)
+
 * If the last node is the left child at any point of the tree, then we move right from the left-child-node, and go down all the way to the left.
+
 ![](http://i.imgur.com/wvEkicQ.png)
 
 As you can tell, this is very complicated. If we were to represent our heap with vectors (arrays), inserting a new element would just mean placing it at the next available spot.
@@ -1793,6 +1806,7 @@ As you can tell, this is very complicated. If we were to represent our heap with
 A heap can be thus represented by a *vector*, where the node at rank *i* has:
 * a left child at rank 2*i*
 * a right child at rank 2*i*+1
+
 ![](http://i.imgur.com/82DqBPt.png)
 
 Notes:
