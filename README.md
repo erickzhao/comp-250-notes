@@ -1,7 +1,6 @@
 **Winter 2016**
 **COMP-250: Introduction to Computer Science**
 
-
 Algorithms
 ==========
 #####Informal Definition
@@ -149,9 +148,7 @@ Generalizing for any base B:
 
 Analysis of Algorithms
 ----------------------
-We analyze the space and time required to run an algorithm. The space used is less important than time.
-
-We do not analyze the time required to run each possible combination of inputs. This would take into account too many cases and would include too many details, rendering our analysis useless.
+We analyze the space and time required to run an algorithm. The space used is less important than time. We do not analyze the time required to run each possible combination of inputs. This would take into account too many cases and would include too many details, rendering our analysis useless.
 
 In reality, we analyze time as a function of the size of the inputs (which is the parameter *N*). For all inputs of the same size, we would have a precise bound.
 
@@ -160,14 +157,11 @@ In reality, we analyze time as a function of the size of the inputs (which is th
 	carry = 0  //CONSTANT TIME
 
 	for i = 0 to N-1 do //LOOP = LINEAR TIME
-		
 		r[i]  <-- (a[i]+b[i]+carry) % 10 //CONSTANT TIME
 		carry <-- (a[i]+b[i]+carry) / 10 //CONSTANT TIME
-
 	end for
 
 	r[N] <-- carry //CONSTANT TIME
-
 
 	Given c, c', c''
 
@@ -181,7 +175,7 @@ In reality, we analyze time as a function of the size of the inputs (which is th
 	Time(N) <= c + c'N + c'' <= c_1 + c_2 * N
 	Time(N) is O(N).
 
-The constants c1 and c2 depend on the hardware that you run the algorithm on. The important thing to take home is that this algorithm has linear time, meaning that doubling the inputs will double time. This statement becomes more true for larger input sets.
+The constants c<sub>1</sub> and c<sub>2</sub> depend on the hardware that you run the algorithm on. The important thing to take home is that this algorithm has linear time, meaning that doubling the inputs will double time. This statement becomes more true for larger input sets.
 
 ####Analysis of Multiplication
 
@@ -330,7 +324,7 @@ Data representation on a byte is circular because adding to the maximum value of
 Here is a table of binary numbers:
 
 	Binary     Signed   Unsigned
-
+	--------   ------   --------
 	00000000   0		0
 	00000001   1		1
 	. 		   .	    .
@@ -764,9 +758,9 @@ A bunch of different brackets:
 
 	(	(	[	]	)	)	[	]	{	[	]	}
 
-
-		(
-	(	(	(	(	(	
+			[
+		(	(	(						[
+	(	(	(	(	(		[		{	{	{
 	-	-	-	-	-	-	-	-	-	-	-	-
 
 A bunch of different (unmatching) brackets:
@@ -1292,21 +1286,35 @@ Solution. T(n) is O(2<sup>n</sup>).
 Proofs: [INSERT PROOF]
 
 Master Theorem
---------------
+==============
 
-[INSERT IMAGE]
 
-####Proof by recursion tree
+####Definition
+The *Master Theorem* is a formula that can be applied to divide-and-conquer algorithms to calculate their running time given their recurrence relation.
 
-[INSERT IMAGE?]
+Given a relation: 
+
+	T(n) = aT(n/b) + f(n)
+	where: a ≥ 1, b > 1, and f(n) > 0
 
 ####Three cases
-[INSERT IMAGE]
+*Case 1*: Leaves dominate the running time.
+If f(n) is O(n<sup>L</sup>) for some constant L < log<sub>b</sub>a, T(n) is ϴ(n<sup>log<sub>b</sub>a</sup>).
+
+*Case 2*: Initial case dominates the running time.
+If f(n) is Ω(n<sup>L</sup>) for some constant L > log<sub>b</sub>a, T(n) is ϴ(f(n)).
+
+*Case 3*: Nothing dominates the running time.
+If f(n) is ϴ(n<sup>log<sub>b</sub>a</sup> log<sup>k</sup>n), for some k ≥ 0, T(n) is ϴ(n<sup>log<sub>b</sub>a</sup> log<sup>k+1</sup>n).
+
+####Recursion tree illustration
+![](http://i.imgur.com/3m3A82T.png)
+
 
 Divide and conquer algorithms
------------------------------
+=============================
 
-Gist:
+####Definition
 
 * Break up problem into several parts
 * Solve each part recursively
@@ -1314,8 +1322,8 @@ Gist:
 
 ####Binary Search
 
-Input: array *a*, value *v*, lower and upper bound indices *low*, *high*.
-Output: the index *i* of element *v* (if present), -1 (if *v* is not present).
+*Input*: array *a*, value *v*, lower and upper bound indices *low*, *high*.
+*Output*: the index *i* of element *v* (if present), -1 (if *v* is not present).
 
 	if low==high then
 		if a[low]==v then
@@ -1332,18 +1340,503 @@ Output: the index *i* of element *v* (if present), -1 (if *v* is not present).
 		end if
 	end if
 
-Recurrence relation
+*Recurrence relation*
 
-[INSERT IMAGE]
+![](http://i.imgur.com/ilsG2S1.png)
 
-####Integer Multiplication (Revisited)
+####Karatsuba multiplication
 
-#####The original O(n<sup>2</sup>) grade-school multiplication algorithm
+![](http://i.imgur.com/i1CEswL.png)
 
-To multiply two n-digit integers:
+*Recursion Tree*
+![](http://i.imgur.com/0mAdvkP.png)
 
-* Multiply four n/2-digit integers.
-* Add two n/2-digit integers, and shift to obtain result.
+Graphs
+======
+A vast number of problems in practice are solved with graphs. A subset of graphs, trees, are incredibly useful.
 
-#####Karatsuba multiplication
+####Definition: 
+
+* A graph G = (V,E) is composed of V (set of vertices) and E (set of edges connecting the vertices in V)
+* An edge e = (u,v) is a pair of vertices
+
+Example:
+
+![](http://i.imgur.com/lxU16CH.png)
+
+####Applications:
+
+* Electronic circuits (finding the path of least resistance)
+* Networks (roads, flights, communications)
+* World Wide Web (hyperlinks connecting web pages)
+
+These two examples have no orientation in their graphs. However, we can have direction between vertices, such as in the graph for a project workflow.
+
+####Terminology:
+
+* **Adjacent vertices**: connected by an edge.
+* **Degree (of a vertex)**: number of adjacet vertices. The sum of all the degrees in the graph, you get twice the number of edges. This is because every edge is a pair of 2 vertices.
+* **Path**: sequence of vertices v<sub>1</sub>,v<sub>2</sub>,...,v<sub>k</sub> such that consecutive vertices v<sub>i</sub> and v<sub>i+1</sub> are adjacent.
+* **Cycle**: simple path, but where the last vertex is the same as the first.
+* **Connected graph**: any 2 vertices are connected by some path.
+* **Subgraph**: subset of vertices and edges forming a graph.
+* **Connected component**: maximal connected subgraph.
+* **Tree**: connected graph without cycles
+* **Forest**: Collection of trees
+* **Complete graph**: all pairs of vertices are adjacent
+* **Spanning tree**: a subgraph of G which is a tree that contains all of its vertices.
+
+Connectivity
+------------
+The edges and vertices in a graph are generally two independent parameters.
+
+Let m = #edges, n = #vertices
+
+* For a complete graph: m = n(n-1)/2
+* For a tree: m = n - 1
+* If m < n - 1, G is not connected
+
+Making a graph a cycle would make it more fault-tolerant and only requires n edges.
+
+####Konigsberg bridge problem
+
+![](http://www.contracosta.edu/legacycontent/math/KBRIDG3.GIF)
+![](http://jwilson.coe.uga.edu/EMAT6680Fa2012/Faircloth/Essay2alf/proof1.jpg)
+
+Can one walk across all 7 bridges of Konigsberg without crossing any twice? Euler proved that this problem is unsolvable.
+
+The graph ADT
+-------------
+
+The graph ADT is a positional container whose positions are the vertices and the edges of the graph.
+
+![](http://i.imgur.com/tky9nlQ.png)
+
+Methods:
+
+* size()
+* isEmpty()
+* elements()
+* positions()
+* swap()
+* replaceElement()
+* numVertices()
+* numEdges()
+* vertices()
+* edges()
+* directedEdges()
+* undirectedEdges()
+* incidentEdges(v)
+* inIncidentEdges(v)
+* outIncidentEdges(v)
+* opposite(v,e)
+* degree(v)
+* inDegree(v)
+* outDegree(v)
+* adjacentVertices(v)
+* inAdjacentVertices(v)
+* outAdjecentVertices(v)
+* areAdjacent(v,w)
+* endVertices(e)
+* origin(e)
+* destination(e)
+* isDirected(e)
+* makeUndirected(e)
+* reverseDirection(e)
+* setDirectionFrom(e,v)
+* setDirectionTo(e,v)
+* insertEdge(v,w,o)
+* insertDirectedEdge(v,w,o)
+* insertVertex(o)
+* removeEdge(e)
+
+Data Structures for Graphs
+--------------------------
+These data structures store the vertices and edges of a graph into two containers, where each edge object has references to the vertices it connects.
+
+####Edge List
+The edge list structure stores the vertices and edges into unsorted sequences. It's the easiest to implement. Finding the edges incident on a given vertex is inefficient since it requires examining the entire edge sequence.
+![](http://i.imgur.com/wvYjozs.png)
+
+####Adjacency List
+The adjacency list of a vertex stores all adjacent vertices. You can construct a graph with the adjacency lists of all vertices. The adjacency list extends the edge list structure by adding incidence containers to each vertex.
+![](http://i.imgur.com/3qelxo6.png)
+
+####Adjacency Matrix
+The adjacency matrix is a matrix M with entries for all pairs of vertices. Boolean values indicate whether or not there are existing edges between two vertices. Notice how for undirected edges, the matrix is symmetric.
+![](http://i.imgur.com/qtoq11x.png)
+
+Trees
+=====
+
+Trees describe hierarchical structures (e.g. organizational structure of a corporation, file directory in a Unix-based system, or the table of contents of a manual)
+
+####Terminology
+
+![](http://i.imgur.com/DWbSrR9.png)
+
+####Methods
+* *Generic container methods*: size(), isEmpty(), elements()
+* *Positional container methods*: positions(), swapElements(p,q), replaceElements(p,e)
+* *Query methods*: isRoot(p), isInternal(p), isExternal(p)
+* *Accessor methods*: root(), parent(p), children(p)
+* *Update methods*: application-specific
+
+Binary Trees
+------------
+
+*Ordered tree*: The children of each node are ordered.
+
+*Binary tree*: Ordered tree with all internal nodes of degree 2.
+
+*Recursive definition of a binary tree*: A binary tree is either an external node (leaf) or an internal node (root) with two binary subtrees (left and right).
+
+Examples: 
+
+*Arithmetic expression*
+![](http://i.imgur.com/al2HBtI.png)
+
+*Decision trees*
+![](http://i.imgur.com/3JIizeB.png)
+
+####Properties
+![](http://i.imgur.com/vJX7oDN.png)
+
+####Methods
+* *Accessor methods*: leftChild(p), rightChild(p), sibling(p)
+* *Update methods*: expandExternal(p), removeAboveExternal(p)
+
+#####Linked data structure for binary trees
+
+Note: Focusing on one branch of the binary tree will be the same as a doubly linked list.
+
+![](http://i.imgur.com/geYIqa8.png)
+
+#####General tree representation
+
+![](http://i.imgur.com/h1cWk75.png)
+
+We can still use binary trees to represent general trees. If you have a general tree, you can sub it with a binary tree, where siblings are on the right side of the node, and children are on the left side of the node.
+
+
+Depth-first search
+------------------
+
+Depth-first search is an algorithm that traverses trees and graphs. To implement it, we will be using a stack (FILO) process, as we go further into our tree and backtrack once we reach a dead end. 
+
+####Example
+
+* A DPS in an undirected graph G is like wandering in a labyrinth with a string and a can of red paint without getting lost.
+* We start at a vertex **s**, tying the end of our string to the point and painting **s** as "visited". Next, we label **s** as our current vertex **u**.
+* Now we travel along an arbitrary edge (u,v).
+* If edge (u,v) leads us to an already visted vertex **v**, we return to **u**.
+* If vertex *v* is unvisited, we unroll our string to move to *v*, paint *v* "visited", set *v* as our current vertex, and repeat the previous steps.
+
+* Eventually, we will get to a point where the edges on *u* lead to visited vertices. We then backtrack by unrolling our string to a previous visited vertex *v*. Then *v* becomes our current vertex and we repeat the previous steps.
+
+* If all incident edges of *v* lead to visited vertices, we backtrack as we did before. We continue to backtrack along the path we have traveled, finding and exploring unexplored edges, and repeating the procedure.
+
+* When we backtrack to vertex *s* and there are no more unexplored edges incident on *s*, we have completed our DFS search.
+
+####Algorithm
+
+*Input*: Vertex v in a graph
+*Output*: A labeling of the edges as "discovery" edges and "backedges"
+
+Discovery edges: Edges leading to new node
+Back edges: Edges leading to a visited node
+
+	for each edge e incident on v do
+		if edge e is unexplored then
+			let w be the other endpoint of e
+			if vertex w is unexplored then
+				label e as a discovery edge
+				recursively call DFS(w)
+			else
+
+			label e as backedge
+
+![](http://i.imgur.com/ZTHQS6H.png)
+
+*Animation*:
+![](http://i.imgur.com/QcWrNK2.gif)
+
+####Determining Incident Edges
+
+DFS depends on how you obtain incident edges. If we start at A and we examine the edge to F, then to B, then E, C, and finally G:
+
+	A->F->B->E->C->G
+
+At the end of the algorithm execution, all vertices will be visited once and all edges twice (once from each of its vertices). The discovery edges will form a spanning tree of the connected component of s.
+
+####Properties
+
+If *G* is an undirected graph on which a DFS traversal starting at a vertex *s* has been performed, then:
+
+* The traversal visits all vertices in the connected component of *s*.
+* The discovery edges form a spanning tree of the connected component of *s*.
+
+####Runtime analysis
+
+Recall:
+* DFS is called on each vertex exactly once.
+* Every edge is examined exactly twice, once from each of its vertices.
+
+Thus, for n<sub>s</sub> vertices and m<sub>s</sub> edges in the connected componnet of the vertex *s*, the total running time for DFS starting at *s* is *O(n<sub>s</sub>+m<sub>s</sub>)*, but only if:
+* The graph is represented in a data structure (like the adjacency list) where vertex and edge methods take constant time.
+* Marking a vertex as explored and testing to see if a verrex has been explored takes O(degree)
+* By marking visited nodes, we can systematically consider the edges incident on the current vertex so we do not examine the same edge more than once.
+
+Breadth-First Search
+--------------------
+
+BFS is very similar to DFS, but visits everything on a certain level before descending to the next. Each level contains all elements at a certain distance away from the starting point.
+
+![](http://i.imgur.com/NebNFAM.png)
+
+BFS traverses a connected component of a graph, and in doing so defines a spanning tree that has several useful properties:
+
+* The starting vertex *s* has level 0 and is an anchor.
+* In the first round, the string is unrolled the length of one edge, and all the edges that are one edge away from the anchor are visited.
+* These edges are placed into level 1.
+* In the second round, all the new edges that can be reached by unrolling the string another edge away are placed in level 2.
+* This continues until every vertex has been assigned a level.
+* The label of any vertex *v* corresponds to the length of the shortest path from *s* to *v*.
+
+*Animation*:
+![](http://i.imgur.com/cpoHGKe.gif)
+
+####Algorithm
+
+Input: a vertex s in a graph
+Output: A labelling of the edges as discovery edges and cross edges.
+
+	initialize container L_0 to contain vertex s
+
+	i<--0
+
+	while L_i is not empty  do
+		create container L_i+1 to initially be empty
+		for each vertex v in L_i do
+			for each edge e incident on v do
+				if edge e is unexplored then
+					let w be the other endpoint of e
+					if vertex w is unexplored then
+						label e as a discovery edge
+						insert w into L_i+1
+					else
+						label e as a cross edge
+		i<--i+1
+
+####Properties
+
+* All vertices in the connected component of s will be visited. 
+* The discovery edges form a spanning tree T of the connected component of s.
+* For each vertex v at level i, the path of the BFS tree T between s and v has i edges, and any other path of G between s and v has at least i edges.
+* If (u,v) is an edge that is not in the BFS tree, then the level numbers of u and v differ by at most one.
+
+####Runtime analysis
+
+BFS traversal of a graph G with n vertices and m edges will take time O(m+n). Also, there exist O(n+m) time algorithms based on BFS for the following problems:
+* Testing whether G is connected
+* Computing a spanning tree of G
+* Computing the connected components of G
+* Computing for every vertex *v*, the minimum number of edges on any path between *s* and *v*.
+
+
+Binary Search Trees
+-------------------
+
+Purpose: to create a dictionary ADT to store information organized as a tree that can be looked up as efficiently as possible.
+
+* A dictionary is an abstract model of a database.
+* Like a priority queue, a dictionary stores key-element pairs.
+* The main operation supported by a dictionary is searching by key.
+
+####Methods
+
+* Simple container methods:
+	- size()
+	- isEmpty()
+	- elements()
+
+* Query methods:
+	- findElement(k)
+	- findAllElements(k)
+
+* Update methods:
+	- insertItem(k,e)
+	- removeElement(k)
+	- removeAllElements(k)
+
+* Special element:
+	- NO SUCH KEY, returned by an unsuccessful search
+
+####Sequence-based dictionary implementation
+
+![Imgur](http://i.imgur.com/0AtfG2O.png)
+* Unordered sequence:
+	- Searching and removing takes O(n) time
+	- Inserting takes O(1) time
+	- Applications to log files (frequent insertions, rare searches, and removals)
+
+![Imgur](http://i.imgur.com/0AtfG2O.png)
+* Array-based ordered sequence:
+	- Searching takes O(n lg n) time (binary search)
+	- Inserting and removing takes O(n) time
+	- Useful when you need frequent searches, rare insertions and removals (i.e. a real-life dictionary)
+
+However, if we organize our sequence as a tree, we can get insertion/removal times that are very close to the time we get for searches (log n), which improves our dictionary ADT. For this, we use binary search trees.
+
+A binary search tree is a binary tree T such that
+* Each internal node stores an item (k,e) of a dictionary.
+* Keys stored at nodes in the left subtree of v are less than or equal to k.
+* Keys stored at nodes in the right subtree of v are greater than or equal to k.
+* External nodes do not hold elements but serve as place holders.
+
+![](http://i.imgur.com/4velnlQ.png)
+
+A binary search tree T is a decision tree, where the question asked at an internal node v is whether the search key k is less than, equal to, or greater than the key stored at v.
+
+####Algorithm
+
+Algorithm TreeSearch(k,v):
+
+*Input*: A search key k and a node v of a binary search tree T.
+*Output*: A node w of the subtree T(v) of T rooted at v.
+
+	if (v is an external node) then return v
+	if k = key(v) then return v
+	if k < key(v) then return TreeSearch(k,T.leftChild(v))
+	if k > key(v) then return TreeSearch(l,T.rightChild(v))
+
+####Example
+
+![](http://i.imgur.com/5dery3a.png)
+
+![](http://i.imgur.com/fOzgd8B.png)
+
+####Insertion
+
+* To perform insertItem(k,e), let w be the node returned by TreeSearch(k,T.root())
+
+* If w is external, we know that k is not stored in T. We call expandExternal(w) on T and store (k,e) in w.
+
+![](http://i.imgur.com/0nJvYyR.png)
+
+* If w is internal, we know another item with key k is stored at w. We call the algorithm recursively starting at T.rightChild(w) or T.leftChild(w).
+![](http://i.imgur.com/pa0h1xK.png)
+
+####Removal
+
+* We locate the node *w* where the key is stored with algorithm TreeSearch.
+* If w has an external child z, we remove w and z with removeAboveExternal(z)
+
+![](http://i.imgur.com/6GGe93R.png)
+
+* If w has no external children:
+	- Find the internal node y following w in order
+	- Move the item at y into w
+	- Perform removeAboveExternal(x), where x is the left child of y (guaranteed to be external)
+
+![](http://i.imgur.com/tJsof36.png)
+
+####Time complexity
+
+* A search, insertion, or removal visits the nodes along a root-to-leaf path, plus possibly the siblings of such nodes.
+* Time O(1) is spent at each node.
+* The running time of each operation is O(h), where h is the height of the tree.
+* The height of a binary search tree is n in the worst case, where a binary search tree looks like a sorted sequence (only children on one side).
+* To achieve good running time, we need to keep the tree balanced (with O(log n) height)
+
+Heaps
+-----
+
+A heap is a binary tree T that stores a collection of keys (or key-element pairs) at its internal nodes and that satisfies two additional properties.
+* *Order property*: key(parent) ≤ key(child).
+* *Structural property*: all levels are full, except the last one, which list left-filled. We want to get as close to a complete binary tree as possible, but empty nodes are all on the bottom right.
+
+Heaps are useful to find min/max values in a set. Note that we don't care about the order in which the children are positioned, unlike in binary search trees.
+
+####Height
+
+![](http://i.imgur.com/2gzw3AA.png)
+
+####Insertion
+
+![](http://i.imgur.com/K5D0gfD.gif)
+
+* Upheap terminates when the new key is greater than the key of its parent or the top of the heap is reached.
+* Total # of swaps < (h - 1), which is O(log n).
+
+####Removal
+
+![](http://i.imgur.com/QBmFebu.gif)
+
+* To remove the minimum node on a heap, we first promote the bottom right node to the top, which satisfies our structural property, but not our order property.
+* To fix that, we downheap (comparing parent with the smallest child and switching the two).
+* Downheap ends if the key is greater than both children or if the bottom fo the heap is reached.
+* Total # of swaps ≤ (h-1), which is O(log n).
+
+####Implementation
+
+One might be tempted to implement heaps as trees. The problem with this is that we have to know where we have to figure out where to insert following elements into the heap.
+
+There are two cases for insertion:
+* If the last node is the right child of every node going back to the root, then we know it's the last element of the level, and we have to start filling up the last level.
+![](http://i.imgur.com/LTeefnl.png)
+* If the last node is the left child at any point of the tree, then we move right from the left-child-node, and go down all the way to the left.
+![](http://i.imgur.com/wvEkicQ.png)
+
+As you can tell, this is very complicated. If we were to represent our heap with vectors (arrays), inserting a new element would just mean placing it at the next available spot.
+
+A heap can be thus represented by a *vector*, where the node at rank *i* has:
+* a left child at rank 2*i*
+* a right child at rank 2*i*+1
+![](http://i.imgur.com/82DqBPt.png)
+
+Notes:
+* The leaves do not need to be explicitly stored
+* Insertion and removal methods correspond to insertLast() and removeLast() on the vector.
+
+
+####Heapsort
+
+One of the main reasons for making heaps is to use them in sorting, since they're mostly used to find the smallest element in a set. Sorting using heaps is called *Heapsort*.
+
+* All heap methods run in logarithmic time or better
+* If we implement PriorityQueueSort using a heap for our priority queue, insertItem() and removeMin() each take O(log k), where k is the # of elements in the heap at a given time.
+* We always have at most n elements in the heap, so the worst case time complexity of these methods is O(log n).
+* Thus each phase takes O(n log n) time, so the algorithm runs in O(n log n) time as well.
+* The O(n log n) running time of heapsort is much better than the O(n<sup>2</sup>) runtime of selection and insertion sort.
+
+####Bottom-up heap construction
+
+We can in fact do an in-place heapsort, meaning that we can go through without actually making a heap separate from the unsorted array we started from. This saves the extra space of creating a second array, and we can do this in linear time. 
+
+To do this, we do what we call bottom-up construction of a heap.
+
+1. Insert (n+1)/2 nodes
+2. Insert (n+1)/4 nodes and downheap
+3. Insert (n+1)/8 nodes and downheap
+4. ...
+
+![Heap construction process](http://i.imgur.com/rzV8yjT.gif)
+
+The total cost of bottom-up heap construction with n keys takes O(n) time. You end up with n inserts, n/2 upheaps with total O(n) running time.
+
+![Heap construction process](http://i.imgur.com/pz1y2OH.png)
+
+Heapsort is preferable to Mergesort in many cases as it does not take any extra space.
+
+
+
+
+
+
+
+
+
+
+
 
