@@ -1617,8 +1617,9 @@ BFS traverses a connected component of a graph, and in doing so defines a spanni
 
 ####Algorithm
 
-Input: a vertex s in a graph
-Output: A labelling of the edges as discovery edges and cross edges.
+*Input*: a vertex s in a graph
+
+*Output*: A labelling of the edges as discovery edges and cross edges.
 
 	initialize container L_0 to contain vertex s
 
@@ -1712,6 +1713,7 @@ A binary search tree T is a decision tree, where the question asked at an intern
 Algorithm TreeSearch(k,v):
 
 *Input*: A search key k and a node v of a binary search tree T.
+
 *Output*: A node w of the subtree T(v) of T rooted at v.
 
 	if (v is an external node) then return v
@@ -1843,9 +1845,140 @@ The total cost of bottom-up heap construction with n keys takes O(n) time. You e
 
 Heapsort is preferable to Mergesort in many cases as it does not take any extra space.
 
+Counting-Sort
+-------------
+
+Counting-sort is a sorting algorithm that doesn't actually use any comparisons. It counts how many times each possible value is encountered in A.
+
+####Algorithm
+
+*Input*: An array A with the values and a value k that is an upper bound on the values to be sorted.
+
+*Output*: An array B of sorted values.
+
+```java
+CountingSort(A,B,k)
+	for i <-- 0 to k do 
+		C[i] <-- 0 //C is called the count array
+
+	for j <-- 1 to length[A] do
+		C[A[j]] <-- C[A[j]]+1
+	//C[i] now contains the number of elements equal to i.
+
+	for i <-- 1 to k
+		do C[i] <-- C[i] + C[i-1]
+	//C[i] now contains the number of elements less than or equal to i.
+	//The new C contains the same information as the one obtained from the
+	// previous step, but says 
+
+	/*This satisfies what we call stability. This means that if we have two
+	numbers with the same value in our input, they will be in the same order
+	in our output.
+	We want this algorithm to have this property to combine it into another
+	algorithm that requires stability to function. */
+
+	//COPYING A[] INTO B[]
+
+	for j <-- length[A] downto 1 do
+		B[C[A[j]]] <-- A[j]
+		C[A[j]] <-- C[A[j]] - 1
+
+	/*Why B[C[A[j]]]? C counts the number of elements that are smaller or
+	equal to a value A. If we place A[j] at the C[A[j]]-th index, then it's
+	exactly where it belongs in the sorted output.*/
+
+```
+
+This works in linear time, but the major downside to it because the counting array C[] gets crazy if *k* has very high values.
+
+Radix Sort
+----------
+
+Radix sort was developed by IBM even before personal computers were a thing, back when punchcards were used for calculations.
+
+*Key idea*: Sort least significant digits first. By doing so, we don't mess up the order of previously sorted digits as we continue. This is why *stability* is so important in this case, because when we meet identical values on a certain digit, they keep their order from previous digits.
+
+
+####Algorithm
+```java
+radixSort(A,d)
+	for i <-- 1 to d do
+		stable sort array A on digit i
+
+```
+####Proof
+
+* Assume digits 1,2,...,i-1 are sorted.
+* Show that a stable sort on digit i leaves digits 1,...,i sorted:
+	- If 2 digits in position i are different, ordering by position i is correct, and positions 1,...,i-1 are irrelevant.
+	- If 2 digits in position i are equal, numbers are already in the right order (by inductive hypothesis). The stable sort on digit i leaves them in the right order.
+
+####Runtime Analysis
+
+Assuming that Counting Sort is the stable sort used as an intermediate:
+* Θ(n+k) per pass (digits range in range 0...k)
+* d passes
+* Θ(d(n+k)) total
+* If k = O(n), time = Θ(dn)
+
+####How to break each key into digits?
+
+* *n* words
+* *b* bits per word
+* Break each word into *r*-bit digits. Have *d* = ceil(*b*/*r*)
+* Use Counting Sort, *k* = 2<sup>*r*</sup>-1
+* Time: Θ(b/r * (n + 2<sup>r</sup>))
+
+How to choose r? Balance b/r and n + 2<sup>r</sup>. Choosing r ~ lg n gives us Θ(bn/lgn).
+
+* If we choose r < lg n, then b/r > b/lg n, and n + 2<sup>r</sup> doesn't improve.
+* If we choose r > lg n, then n + 2<sup>r</sup> gets big.
+
+Thus, to sort 2<sup>16</sup> 32-bit numbers, use r = lg 2<sup>16</sup> = 16 bits.
+
+####Comparison to mergesort and quicksort
+
+* 1 million (2<sup>20</sup>) 32-bit integers.
+* Radix sort: ceil(32/20) = 2 passes.
+* Mergesort/quicksort: lg (n) = 20 passes.
+
+(Remember that each radix sort "pass" is really just two passses - one to take census, and one to move data.)
+
+However, the downside of this is that it uses 65536 memory cells.
+
+####Breaking n log n limit
+
+How does radix sort violate the ground rules for a comparison sort? It uses counting sort to gain information about keys rather than directly comparing 2 keys. Keys are used as array indices.
+
+
+Quicksort
+---------
+
+Quicksort is a divide and conquer algorithm that is the fastest method used for comparison sorting. Its major drawback is that its worse case is quadratic. However, on average, it runs a lot faster than the other methods. It runs in O(n log n) time, but the hidden constant in front of quicksort is a lot smaller than other logarithmic methods (e.g. mergesort )
+
+####Runtime analysis
+
+* Worst case: Already sorted array (either increasing or decreasing)
+* T(n) = T(n-1) + c*n+d
+
+
+####In-place algorithms
+
+An algorithm is *in-place* if it uses only a constant amount of memory in addition to that used to store the input.
 
 
 
+####Algorithm
+
+
+*Partition step*
+
+```java
+```
+*Sorting step*
+
+```java
+```
 
 
 
