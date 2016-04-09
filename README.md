@@ -1954,32 +1954,398 @@ How does radix sort violate the ground rules for a comparison sort? It uses coun
 Quicksort
 ---------
 
-Quicksort is a divide and conquer algorithm that is the fastest method used for comparison sorting. Its major drawback is that its worse case is quadratic. However, on average, it runs a lot faster than the other methods. It runs in O(n log n) time, but the hidden constant in front of quicksort is a lot smaller than other logarithmic methods (e.g. mergesort )
+Quicksort is a divide and conquer algorithm that is the fastest method used for comparison sorting. Its major drawback is that its worse case is quadratic. However, on average, it runs a lot faster than the other methods. It runs in O(n log n) time, but the hidden constant in front of quicksort is a lot smaller than other logarithmic methods (e.g. mergesort or heapsort).
 
 ####Runtime analysis
 
 * Worst case: Already sorted array (either increasing or decreasing)
-* T(n) = T(n-1) + c*n+d
+* Recurrence relation: T(n) = T(n-1) + c*n+d
 
 
 ####In-place algorithms
 
-An algorithm is *in-place* if it uses only a constant amount of memory in addition to that used to store the input.
+An algorithm is **in-place** if it uses only a constant amount of memory in addition to that used to store the input. These are important because if the data set to be sorted takes a lot of space already, we don't want an algorithm that takes up twice as much space.
 
-
+* Mergesort isn't in-place because its merge procedure requires a temporary array.
+* Selection sort and Insertion sort are in-place, because we're only moving elements within the input array.
 
 ####Algorithm
 
+**Partition step**
 
-*Partition step*
+
+*Input*: An array A with indices start and stop
+
+*Output*: Returns an index j and rearranges the elements of A such that for all i<j, A[i]≤A[j] and for all k>j, A[k]≥A[j].
 
 ```java
+	pivot <-- A[stop]
+	left <-- start
+	right <-- stop - 1
+
+	while left <= right do
+		while (left <= right and A[left] <= pivot) do left <-- left + 1
+		while (left <= right and A[right] <= pivot) do right <-- right - 1
+		if (left < right) then exchange A[left] and A[right]
+	exchange A[stop] and A[left]
+	return left
 ```
-*Sorting step*
+![](http://i.imgur.com/ESWt07g.gif)
+
+**Sorting step**
+
+
+*Input*: An array A to sort indices start and stop.
+
+*Output*: A[start...stop] is sorted.
 
 ```java
+if (start<stop) then
+	pivot <-- partition(A, start, stop)
+	quickSort(A, start, pivot-1)
+	quickSort(A, pivot+1, stop)
+
 ```
 
+####Improvements
+
+Quicksort gets a lot slower if the array is already sorted.
+
+A solution to this is to always find the median before sorting, but although that guarantees O(n log n) running time, it worsens the average case so that the algorithm becomes just another O(n log n) sort rather than the quickest.
+
+To solve this, we can choose to randomize the pivot. To do so, we choose an element at a position *i* and swap it with the element at the last position before continuing with our normal Quicksort. The chances of reaching the worst-case are drastically decreased.
+
+
+Strings & Pattern Matching
+==========================
+
+* The objective of string searching is to find the location of a specific text pattern within a larger body of text (e.g. a sentence, paragraph, book, etc.)
+* As with most algorithms, the main considerations are speed and efficiency.
+
+Brute Force
+-----------
+
+* The Brute Force algorithm compares the pattern to the text, one character at a time, until unmatching characters are found.
+* The algorithm can be designed to stop on either the first occurrence of the pattern, or upon reaching the end of the text.
+
+![](http://i.imgur.com/6lNMkP7.png)
+
+####Algorithm
+
+```java
+do
+	if (text letter == pattern letter)
+		compare next letter of pattern to next letter of text
+	else
+		move pattern down text by one letter
+until (entire pattern found or end of text)
+
+```
+
+####Complexity
+
+* Given a pattern with M characters in length, and a text N characters in length...
+* Worst case: compares the pattern to each substring of text of length M.
+	- Total number of comparisons: M(N-M+1)
+	- Worst case time complexity: O(MN)
+![](http://i.imgur.com/4SPRuJ8.png)
+* Best case if pattern: Finds pattern in the first M positions of text.
+	- Total number of comparisons: M
+	- Best case time complexity: O(M)
+![](http://i.imgur.com/30IsoLw.png)
+* Best case if pattern not found: Always mismatches on the first character.
+	- Total number of comparisons: N
+	- Best case time complexity: O(N)
+![](http://i.imgur.com/30IsoLw.png)
+
+Rabin-Karp
+----------
+
+* The Rabin-Karp string searching algorithm calculates a hash value for the pattern, and for each M-character subsequence of text to be compared.
+* If the hash values are unequal, the algorithm will calculate the hash value for next M-character sequence.
+* If the hash values are equal, the algorithm will do a Brute-Force comparison between the pattern and the M-character sequence.
+* In this way, there is only one comparison per text subsequence, and Brute Force is only needed when hash values match.
+
+####Algorithm
+
+```java
+
+//pattern is M characters long.
+
+hash_p //hash value of pattern
+hash_t //hash value of first M letters in body of text
+
+do
+	if (hash_p == hash_t)
+		brute force comparison of pattern and selected section of text
+
+	hash_t <-- hash value of next section of text, one character over
+
+until (end of text or brute force comparison == true)
+
+```
+
+
+####Math
+
+* Consider an M-character sequence as an M-digit number in base b, where b is the number of letters in the alphabet. The text subsequence t[i..i+M-1] is mapped to the number **x(i) = t[i]⋅b<sup>M-1</sup> + t[i+1]⋅b<sup>M-2</sup> +...+ t[i+M-1]**
+* Furthermore, given x(i) we can compute x(i+1) for the next subsequence t[i+1...i+M] in constant time, as follows:
+![](http://i.imgur.com/CO0afvM.png)
+* In this way, we never explicitly compute a new value. We simply adjust the existing value as we move over one character.
+* If M is large, the resulting value will be enormous. For this reason, we hash the value by taking its modulo over a prime number Q.
+* The mod function (% in Java) is particularly useful in this case due to several of its inherent properties:
+	- [(x mod q) + (y mod q)] = (x+y) mod q
+	- (x mod q) mod q = x mod q
+![](http://i.imgur.com/P09GvHT.png)
+* If a sufficiently large prime number is used for the hash function, the hashed values of two different patterns will usually be distinct.
+* If this is the case, searching takes O(N) time, where N is the number of characters in the larger body of text.
+* It is always possible to construct a scenario with a worst case complexity of O(MN). However, this is likely to happen only if the prime number used for hashing is small.
+
+Knuth-Morris-Pratt
+------------------
+
+* The KMP string searching algorithm differs from the brute-force algorithm by keeping track of information gained from previous comparisons.
+* A **failure function** (*f*) is computed that indicates how much of the last comparison can be reused if it fails.
+* Specifically, *f* is defined to be the longest prefix of the pattern P[0...j] that is also a suffix of P[1...j]. **N.B. Not a suffix of P[0...j]**.
+
+
+####Example
+
+The value of the KMP failure function:
+
+| j    | 0 | 1 | 2 | 3 | 4 | 5 |
+|------|---|---|---|---|---|---|
+| P[j] | a | b | a | b | a | c |
+| f(j) | 0 | 0 | 1 | 2 | 3 | 0 |
+
+* This shows how much of the beginning of the string matches up to the portion immediately preceding a failed comparison.
+* If the comparison fails at (4), we know the a,b in positions 2,3 is identical to positions 0,1.
+
+####Algorithm
+
+**Input**: Strings *T* (text) with *n* characters and *P* pattern with *m* characters.
+
+**Output**: Starting index of the first substring of *T* matching *P*, or an indication that *P* is not a substring of *T*.
+
+```java
+KMPMatch(T,P)
+	f <-- KMPFailureFunction(P) //build failure function
+	i <-- 0
+	j <-- 0
+
+	while i<n do
+		if P[j] == T[i] then
+			if j == m-1 then
+				return i - m - 1 //a match
+			i <-- i+1
+			j <-- j+1
+		else if j>0 then //no match but we have advanced
+			j <-- f(j-1) //j indexes just after matching prefix in P
+		else
+			i <-- i+1
+
+	return "There is no substring of T matching P!"
+
+```
+
+
+**Input**: String *P* (pattern) with *m* characters.
+
+**Output**: The failure function *f* for *P*, which maps *j* to the length of the longest prefix of *P* that is a suffix of P[i...j].
+
+```java
+
+KMPFailureFunction(P)
+
+	i <-- 1
+	j <-- 0
+
+	while i <= m-1 do
+		if P[j] == P[i] then //we have matched j+1 characters
+			f(i) <-- j+1
+			i <-- i+1
+			j <-- j+1
+		else if j>0 then //j indexes just after a prefix of P that matches
+			j <-- f(j-1)
+		else //there is no match
+			f(i) <-- 0
+			i <-- i + 1
+
+```
+
+####Graphical representation
+
+![](http://i.imgur.com/1aE96z3.png)
+
+
+####Time Complexity Analysis
+
+* define *k = i - j*
+* In every iteration through the while loop, one of three things happens:
+	- if T[i] = P[j], *i* increases by 1, as does *j*. *k* remains the same.
+	- if T[i] != P[j] and *j* > 0, *i* does not change and *k* increases by at least 1, since *k* changes from *i - j* to *i - f(j-1)*.
+	- If T[i] != P[j] and *j* = 0, *i* increases by 1 and *j* remains the same, so *k* increases by 1.
+* In each iteration of the loop, either *i* or *k* increase by at least 1, so the greatest possible number of loops is *2n*.
+* This is assuming *f* has already been computed.
+* However, *f* is computed in much the same manner as **KMPMatch**, so its time complexity argument is analogous. **KMPFailureFunction** is O(m).
+* **Total time complexity: O(n+m).**
+
+
+Regular Expressions
+-------------------
+
+Regular expressions (RegEx) is notation for describing a set of strings, possible of infinite size.
+
+####Notation
+
+* **ε** denotes the empty string.
+* **ab+c** denotes the set {ab,c}
+* a* denotes the set {ε,a,aa,aaa,...}
+
+####Examples
+
+* (a+b)&#42;: all the strings from the alphabet {a,b}
+* b&#42;(ab&#42;a)&#42;b&#42; strings with an even number of a's
+* (a+b)&#42;sun(a+b)&#42; strings containing the pattern "sun"
+* (a+b)(a+b)(a+b)a 4-letter strings ending in a
+
+
+
+####Finite State Automatons
+
+Regular expressions are computed using Finite State Automatons. FSA can be combined to create OR or AND logic. The creation of the automaton and its subsequent checking process both run in linear time.
+
+
+Tries
+-----
+
+A trie is a tree-based data structure for storing strings in order to make pattern matching faster.
+
+Tries can be used to perform prefix queries for information retrieval. Prefix queries search for the longest prefix of a given string X that matches a prefix of some string in the trie.
+
+A trie supports the following operations on a set S of strings:
+* **insert(X):** Insert the string X into S
+* **remove(X):** Remove string X from S
+* **prefixes(X):** Return all the strings in S that have a longest prefix of X.
+
+Let *S* be a set of strings from the alphabet ∑ such that no String in *S* is a prefix to another string. A **standard trie** for *S* is an ordered tree *T* such that:
+* Each edge of *T* is labeled with a character from ∑.
+* The ordering of edges out of an internal node is determined by the alphabet ∑.
+* The path from the root of *T* to any node represents a prefix in that is equal to the concantenation of the characters encountered while traversing the path.
+* For example, the standard trie over the alphabet {a,b} for the set {aabab,abaab,babbb,bbaaa,bbbab}.
+* ![](http://i.imgur.com/j3lzKnP.png)
+
+An internal node can have 1 to *d* children when d is the size of the alphabet. Our example is essentially a binary tree.
+
+A path from the root *T* to an internal node *v* at depth *i* corresponds to an *i*-character prefix of the string of S.
+
+We can implement a trie with an ordered tree by storing the character associated with an edge at the child node below it.
+
+####Compressed Tries
+
+* A **compressed trie** is like a standard trie but makes sure that each trie has a degree of at least 2. Single child nodes are compressed into a single edge.
+* A **critical node** is a node v such that v is labeled with a string from S, v has at least 2 children, or v is the root.
+* To convert a standard trie to a compressed trie, we replace an edge (v<sub>0</sub>, v<sub>1</sub>) by a chain of nodes (v<sub>0</sub>, v<sub>1</sub> ... v<sub>k</sub>) for k ≥ 2 such that:
+	- v<sub>0</sub> and v<sub>1</sub> are critical but v<sub>i</sub> is not critical for 0 < i < k.
+	- each v<sub>i</sub> only has one child.
+* Each internal node in a compressed trie has at least two children and each external is associated with a string. The compression reduces the total space for the trie from O(m) where *m* is the sum of the lengths of strings in *S* to O(n) where *n* is the number of strings in S.
+
+![Example](http://i.imgur.com/mkP2OM6.png)
+
+####Prefix Queries on a Trie
+
+**Input**: Trie *T* for a set *S* of strings and a query string *X*.
+
+**Output**: The node v of T such that the labeled nodes of the subtree of T rooted at v store the strings of S witha  longest prefix in common with X.
+
+```java
+
+prefixQuery(T,X)
+
+	v <-- T.root()
+	i <-- 0 //i is an index into the string X
+
+	repeat
+		for each child w of v do
+			let e be the edge (w,v)
+			Y <-- string(e) //Y is the substring associated with e)
+			l <-- Y.length() //l=1 if T is the standard trie
+			Z <-- X.substring(i,i+l-1) //Z holds the next l characters of X
+
+			if Z == Y then
+				v <-- w
+				i <-- i + 1 //move to W, incrementing i past Z
+				break out of for loop
+			else if a proper prefix of Z matched a proper prefix of Y then
+				v <-- w
+				break out of the repeat loop
+	until v is external or v != w
+
+	return v
+```
+
+####Insertion and deletion
+
+* Insertion: We first perform a prefix query for string X. There are two ways a prefix query may end in terms of insertion:
+	- The query terminates at node v. Let X<sub>1</sub> be the prefix of X that matched in the trie up to node v and X<sub>2</sub> be the rest of X. If X<sub>2</sub> is an empty string, we label v with X. Otherwise, we create a new external node w and label it with X.
+
+	![](http://i.imgur.com/hiEWrNg.png)
+
+	- The query terminates at an edge e=(v,w) because a prefix of X matches prefix(v) and a proper prefix of Y associated with e. Let Y<sub>1</sub> be the part of Y that X matched to and Y<sub>2</sub> the rest of Y. Likewise for X<sub>1</sub> and X<sub>2</sub>. Then X = X<sub>1</sub> + X<sub>2</sub> = prefix(v) + Y<sub>1</sub> + X<sub>2</sub>. We create a new node *u* and split the edges (v,u) and (u,w). If X<sub>2</sub> is empty, we label *u* with X. Otherwise, we create a node *z* which is external and label it X.
+
+	![](http://i.imgur.com/sMXGqrJ.png)
+
+* Insertion is O(dn) where *d* is the size of the alphabet and *n* is the length of the string to insert.
+
+
+####Lempel Ziv Encoding
+
+This is an efficient way to represent strings such that the encoded strings are smaller than the strings they came from. This works in any language with a fixed alphabet, because certain characters and combinations appear much more frequently than others. (e.g. "t-h-e" will appear much more frequently than "z-z-z")
+
+* Constructing the trie:
+	- Let phrase 0 be the null string.
+	- Scan through the text.
+	- If you come across a letter you haven't seen before, add it to the top level of the trie.
+	- If you come across a letter you've already seen, scan down the trieuntil you can't match any more characters, then add a node to the trie representing the new string.
+	- Insert the pair (nodeIndex,lastChar) into the compressed string.
+* Reconstructing the string:
+	- Every time you see a '0' in the compressed string, add the next hcaracter in the compressed string directly to the new string.
+	- For each non-zero nodeIndex, put the substring corresponding to that node into the new string, followed by the next character in the compressed string.
+
+**Graphical representation**
+
+![](http://i.imgur.com/zrpQJCI.png)
+
+
+File compression
+----------------
+
+* Text files are usually stored by representing each chracter with an 8-bit ASCII code.
+* The ASCII encoding is an example of fixed-length encoding, where each chracter is represented with the same number of bits.
+* In order to reduce the space required to store a text file, we can exploit the fact that some characters are more likely to occur than others/
+* **Variable-length encoding** uses binary codes of different lenths for different characters; thus, we can assign fewer bits to frequently used chracters, and more bits to rarely used characters.
+
+####Example of encoding
+
+* Text: *java*
+* Encoding: *a = "0", j = "11", v = "10"*
+* Encoded text: *110100* (6 bits)
+
+However, how do would decode this?
+* Encoding: *a = "0", j = "01", v = "0"*
+* Encoded text: *010000* (6 bits)
+* is this: *java*,*jvv*,*jaaaa*... ???
+
+We see that if we aren't careful, we can't guarantee a one-to-one mapping of our encoding, leading to multiple interpretations for  We have to guarantee that no string in our encoding is a prefix for another string.
+
+* To prevent ambiguities in decoding, we require that the encoding satisfies the **prefix rule**, that is, no code is a prefix of another code.
+	- *a = "0", j = "01", v = "0"* does not satisfy the prefix rule.
+	- *a = "0", j = "11", v = "10"* satisfies the prefix rule.
+
+* We use an encoding trie to define an encoding that satisfies the prefix rule.
+	- The characters are stored at the external nodes
+	- A left edge means 0
+	- A right edge means 1
 
 
 
