@@ -106,7 +106,7 @@ A base 8 example:
 
 	 Which is equal to 1123_X (X being the symbol for 10)
 
-####Algorithm 2: Multiplication
+#### Algorithm 2: Multiplication
 
 Using a base-10 multiplication table:
 
@@ -152,7 +152,7 @@ We analyze the space and time required to run an algorithm. The space used is le
 
 In reality, we analyze time as a function of the size of the inputs (which is the parameter *N*). For all inputs of the same size, we would have a precise bound.
 
-####Analysis of Addition
+#### Analysis of Addition
 			
 	carry = 0  //CONSTANT TIME
 
@@ -177,7 +177,7 @@ In reality, we analyze time as a function of the size of the inputs (which is th
 
 The constants c<sub>1</sub> and c<sub>2</sub> depend on the hardware that you run the algorithm on. The important thing to take home is that this algorithm has linear time, meaning that doubling the inputs will double time. This statement becomes more true for larger input sets.
 
-####Analysis of Multiplication
+#### Analysis of Multiplication
 
 	// Part 1: actually multiplying
 
@@ -212,7 +212,7 @@ The constants c<sub>1</sub> and c<sub>2</sub> depend on the hardware that you ru
 
 Since both parts of the algorithm have two nested for loops with linear time, they will be of quadratic time (since N x N = N<sup>2</sup>).
 
-####Big O Notation
+#### Big O Notation
 
 This notation drops all lower exponents and constants in Time(N).
 For example, addition is O(N) and multiplication is O(N<sup>2</sup>).
@@ -222,7 +222,7 @@ Today, the best multiplication algorithm has a running time of O (N x 2<sup>log*
 Bases and Binary Representation
 ===============================
 
-####Base 8 to Base 2
+#### Base 8 to Base 2
 
 (2143)<sub>8</sub> = 2 x 8<sup>3</sup> + 1 x 8<sup>2</sup> + 4 x 8<sup>1</sup> + 3 x 8<sup>0</sup>
 
@@ -232,7 +232,7 @@ Since 8 = 2<sup>3</sup>, you can simply convert the digit in base 8 to its binar
 
 An equivalent process is done to convert binary numbers to the much more readable hexadecimal base unit.
 
-####Base 2 to Base 10
+#### Base 2 to Base 10
 
 (10010010101010101)<sub>2</sub> = (75093)<sub>10</sub>
 
@@ -254,7 +254,7 @@ We take each power of 2 in base 10, multiply them by their binary digit, and sum
 
 This process is special to base 2 because we only have two options for each digit: included or excluded from the sum. Doing the same process in the other direction much more complicated operations, since include/exclude aren't the only operations. You can have from 0 to 9 times of each digit.
 
-####Algorithm 3: Convert integer to binary
+#### Algorithm 3: Convert integer to binary
 
 **Input: a number _n_**
 
@@ -294,7 +294,7 @@ Generalizing for Base B:
 
 	Replace 2 by B.
 
-####Fractional numbers
+#### Fractional numbers
 
 Example:
 
@@ -312,7 +312,7 @@ The integer portion of the number can be calculated separately from the fraction
 
 Certain fractions yield infinite decimal numbers. You can separate the fraction into a non-repeating part and a repeating part.
 
-####Binary representation in computers
+#### Binary representation in computers
 
 Computer memory does not expand or retract depending on the size of the data, so we always work with a fixed size of memory. The smallest unit of memory is a _byte_. A byte contains 8 bit registers for memory. 
 
@@ -362,7 +362,7 @@ for (short s = 32767;s<32768;s++){
 ```
 In our computer memory, we store the location of our bytes in addresses. Address size varies depending on the number of bits of your computer.
 
-####How this works in Java
+#### How this works in Java
 
 In Java, we use different amounts of bytes for different primitive types.
 
@@ -389,7 +389,7 @@ The address keeps track of the first byte, since the bytes used are adjacent to 
 Array Algorithms
 ================
 
-####Algorithm 4: Insertion Sort
+#### Algorithm 4: Insertion Sort
 
 **Input: an array a[] with N elements that can be compared (<,=,>).**
 
@@ -417,7 +417,7 @@ Example:
 
 	a:[2,5,11,12,13,21,51,99] //The array is now sorted.
 
-####Analysis of Insertion Sort
+#### Analysis of Insertion Sort
 
 The inner while loop will take between constant and linear time depending on how sorted the algorithm is. For example, if the array is already sorted, then the while loop will only have one iteration. If the array is sorted in reverse, then we will have the worst case instead.
 
@@ -485,7 +485,7 @@ Singly Linked Lists:
 			size = size - 1
 	}
 
-####Java Generics
+#### Java Generics
 
 A way of writing your code that allows you to specify your type right as you use it. The definition of your class would not depend on which element type you input into it.
 
@@ -504,7 +504,7 @@ A way of writing your code that allows you to specify your type right as you use
 			:
 	}
 
-####Doubly Linked Lists
+#### Doubly Linked Lists
 
 Contain a link to the previous node as well as the next node. This helps to make navigating your list easier. The drawback of this is that they take more space. Thus, if you don't need to use the increased functionality of doubly linked lists, you should used singly linked lists instead. In essence, a doubly linked list is like having two singly linked lists going in opposite directions. 
 
@@ -561,7 +561,7 @@ Note how the above code does not work for the head and tail, because of the lack
 		int 			size;
 	}
 
-####Arrays vs. Linked Lists
+#### Arrays vs. Linked Lists
 
 	.				array 			S.L.L.			D.L.L.
 	.				-----			------			------
@@ -571,7 +571,7 @@ Note how the above code does not work for the head and tail, because of the lack
 	removeLast		1 				N 				1
 	getNode(i)		1				i 				min(i, N/2 - i)
 
-####Linked Lists operations
+#### Linked Lists operations
 
 	add(i,element)	//Inserts element into i-th position
 	set(i,element)	//Sets the element at the i-th position to a specific value
@@ -581,7 +581,7 @@ Note how the above code does not work for the head and tail, because of the lack
 	isEmpty()		//Returns a boolean indicating if the list is empty
 	size()			//Returns the size of the list
 
-####Java LinkedList
+#### Java LinkedList
 
 * Implemented as a doubly linked list.
 * Node class is private to avoid messing with the data structure itself such that the operations fail.
@@ -599,7 +599,7 @@ Linked list operation speeds:
 
 Note how add, set, remove, and get are expensive operations. For instance, if you wanted to print all the elements of a list in order, you would have an O(N<sup>2</sup>) operation. For this reason, you would want to implement some properties of arrays into linked lists, which brings us to...
 
-####Java ArrayList
+#### Java ArrayList
 
 * Implementation using arrays of growing sizes
 * Cannot access using a[i] notation
@@ -610,7 +610,7 @@ The cost of doing so is actually **linear**. The extra cost of creating a new ar
 
 To get to an array of 2<sup>k</sup> length, you need to create arrays for all powers of 2 preceding it. The sum of these would actually be 2k.
 
-####LinkedList vs ArrayList
+#### LinkedList vs ArrayList
 
 	.						LinkedList		ArrayList
 	.						----------		---------
@@ -642,7 +642,7 @@ Objects can be inserted at any time, but only this least(most recently inserted)
 Inserting an item is known as pushing onto the stack.
 Popping off the stack is synonymous with removing an item.
 
-####Methods
+#### Methods
 
 Two main methods:
 
@@ -656,7 +656,7 @@ The following methods should also be defined:
 * isEmpty(): returns a boolean indicating if sstack is empty
 * top(): returns the top object of the stack, without removing it; if the stack is empty then an error occurs.
 
-####Examples
+#### Examples
 
 Simple push/pop operations on an empty stack:
 
@@ -786,7 +786,7 @@ For instance:
 		<HTML>	<HTML>	<HTML>	<HTML>	<HTML>	<HTML>	<HTML>
 		------	------	-------	------	------	------	-------- ...
 
-####Stacks in the Java Virtual Machine
+#### Stacks in the Java Virtual Machine
 
 * Each process running in a Java program has its own Java Method Stack
 * Each time a method is called, it is pushed onto the stack.
@@ -796,7 +796,7 @@ For instance:
 
 Each item on the stack keeps count of the method information, as well as something called a program counter. This shows the line where the method has been interrupted by another method that was added on top of it in the stack. Once the other method is removed, the program reverts to the line saved in the program counter.
 
-####Application: Time Series
+#### Application: Time Series
 
 The span *s<sub>i</sub>* of a stock's price on a certain day *i* is the max number of consecutive days (up to the current day) the price of the stock has been less than or equal to its price on day *i*.
 
@@ -848,7 +848,7 @@ Example:
 
 Queues are more interesting to implement than stacks because of how the insertion and extraction points are on opposite ends.
 
-####Queues as arrays
+#### Queues as arrays
 
 You could implement queues in both LinkedLists and Arrays. However, there is no noticeable advantage for having a queue in a list, so it's simpler to just use an array.
 
@@ -890,30 +890,30 @@ A quote from Charles Babbage:
 
 When we analyze an algorithm, we focus our attention on the time consumed by an algorithm. Computational tractability is the measurement of how easily an operation can be done.
 
-####Brute force
+#### Brute force
 For many non-trivial problems, there is a natural brute force search algorithm that tries every possible solution.
 
 * Typically takes 2<sup>N</sup> time or worse for inputs of size N.
 * Unacceptable in practice.
 
-####Desirable scaling property
+#### Desirable scaling property
 When the input size doubles, the algorithm should only slow down by some constant factor C. This is equivalent to saying that there exist constants a>0 and d>0 such that on every input of size N, its running time is bounded by a N<sup>d</sup> steps.
 
 **Definition**: An algorithm is **poly-time** if the above scaling property holds.
 
-####Worst case analysis
+#### Worst case analysis
 The worst case is the upper bound on the running time of an algorithm on any input of size N.
 
 * Generally captures efficiency in practice
 * Seems draconian, but it's hard to find an effective alternative
 
-####Average case analysis
+#### Average case analysis
 The average case is the bound on running time of an algorithm on a **random** input as a function of input size N.
 
 * Hard (or impossible) to accurately model real instances by random distribution.
 * Algorithm tuned for a certain distribution may perform poorly on other inputs.
 
-####Worst case polynomial-time
+#### Worst case polynomial-time
 
 **Definition**: An algorithm is **efficient** if its running time is polynomial. This is justified by practice.
 **Caveat**: Although 6.02E23 x N<sup>20</sup> is technically poly-time, it would be useless in practice.
@@ -934,7 +934,7 @@ Why does this matter?
 
 ![](http://i.imgur.com/OV8chh5.png)
 
-####Comp Sci approach to problem solving
+#### Comp Sci approach to problem solving
 
 * If my boss formulates a problem to be sovled urgently, can I write a program to efficiently solve this problem?
 * Are there some problems that cannot be solved at all? Are there problems that cannot be solved efficiently?
@@ -959,14 +959,14 @@ Example: T(n) = 32n<sup>2</sup> + 17n + 32
 * The constant function f(n)=1 is O(n log n).
 * The statement doesn't type-check.
 
-####Properties
+#### Properties
 
 * Transitivity: if f is O(g) and g is O(h), then f is O(h).
 * Additivity: if f is O(h) and g is O(h), then f + g is O(h).
 
 Note: These apply for O, Ω, and Θ.
 
-####Frequently used functions
+#### Frequently used functions
 
 * Polynomials: a<sub>0</sub>+a<sub>1</sub>n+...+a<sub>d</sub>n<sup>d</sup> is Θ(n<sup>d</sup>) if a<sub>d</sub>>0.
 * Polynomial time: Running time is O(n<sup>d</sup>) for some constant *d* independent of the input size *n*.
@@ -974,20 +974,20 @@ Note: These apply for O, Ω, and Θ.
 	- For every x > 0, log n is O(n<sup>x</sup>). (i.e. every log grows slower than every polynomial.)
 * Exponentials. For every r > 1 and every d > 0, n<sup>d</sup> is O(r<sup>n</sup>). (i.e. every exponential grows faster than every polynomial.)
 
-####Asymptotic notation
+#### Asymptotic notation
 
 Sometimes, one can also obtain an asymptotically tight bound directly by computing a limit as *n* goes to infinity. Essentially, if the ratio of functions f(n) and g(n) converges to a positive constant as *n* goes to infinity, then f(n) is Θ(g(n)).
 
 ![](http://i.imgur.com/7CB8VLS.png)
 
-####O(n log n) time
+#### O(n log n) time
 
 * Also known as **linearithmetic** time. This time complexity arises in divide-and-conquer time.
 * Sorting: Mergesort and Heapsort are sorting algorithms that perform O(n log n) comparisons.
 * Largest Empty Interval: Given n time-stamps x<sub>1</sub>,...,x<sub>n</sub> on which copies of a file arrive at a server, what is the largest interval of time when no copies of the file arrive?
 * O(n log n) solution: Sort the time-stamps. Scan the sorted list in order, identifying the maximum gap between successive time-stamps.
 
-####Quadratic time
+#### Quadratic time
 
 * Enumerates all pairs of elements.
 * Closest pairs of points: Given a list of n points in the plane (x<sub>1</sub>,y<sub>1</sub>),...,(x<sub>n</sub>,y<sub>n</sub>), find the closest pair.
@@ -1005,7 +1005,7 @@ Pseudocode:
 		}
 	}
 
-####Cubic time
+#### Cubic time
 
 * Enumerates all triples of elements.
 * Set disjointness: Given n sets S<sub>1</sub>,...,S<sub>n</sub> each of which is a subset of 1,2,...,n, is there some pair of these which are disjoint?
@@ -1021,7 +1021,7 @@ Pseudocode:
 			report that Si and Sj are disjoint
 	}
 
-####Polynomial time
+#### Polynomial time
 
 * Independent set of size k: Given a graph, are there k nodes such that no two are joined by an edge?
 * Polynomial solution: Enumerate all subsets of k nodes.
@@ -1035,7 +1035,7 @@ Pseudocode:
 		}
 	}
 
-####Exponential time
+#### Exponential time
 
 * Independent set: Given an graph, what is the max size of an independent size?
 * O(n^2 2^n) solution: Enumerate all subsets.
@@ -1058,7 +1058,7 @@ Induction and Recursion
 Induction proofs
 ----------------
 
-####Process
+#### Process
 
 **Predicate.**
 P(n): f(n) = some formula in n
@@ -1070,7 +1070,7 @@ for all n ≥ 1, P(n) is true.
 * Base case: prove that P(1) is true.
 * Induction step: Show that for all n ≥ 1, P(n) being true implies P(n+1) being true as well.
 
-####Example
+#### Example
 
 Predicate: P(n): 1+2+...+n = n(n+1)/2
 
@@ -1103,7 +1103,7 @@ f(n) = f(n-1)+1 if n>0
 	if n = 0 (return 0)
 	else {return f(n-1)+n}
 
-####Redoing the induction proof with recursion
+#### Redoing the induction proof with recursion
 
 Predicate.
 f(n) = n(n+1)/2
@@ -1115,7 +1115,7 @@ Base case:
 Generalized induction proofs
 ----------------------------
 
-####Process
+#### Process
 
 **Predicate.**
 P(n): f(n) = some formula in n
@@ -1127,7 +1127,7 @@ for all n ≥ 1, P(n) is true.
 * Base case: prove that P(1) is true.
 * Induction step: Let n ≥ 1. Show that P(1)...P(n) being true implies P(n+1) being true as well.
 
-####Example: Fibonacci Sequence
+#### Example: Fibonacci Sequence
 
 	fib(n) = n 					 if n≤1
 	fib(n) = fib(n-1) + fib(n-2) if n>1
@@ -1151,7 +1151,7 @@ for all n ≥ 1, P(n) is true.
 
 **Note: The recursive implementation is very inefficient, as we already compute smaller values in our Fibonacci sequence while finding larger values, leading to many repeat computations (the number of which actually follows the Fibonacci sequence itself, interestingly enough). On the other hand, the iterative version carries the values of the previous Fibonacci values, which leads to each computation being made only once.**
 
-####Example 1
+#### Example 1
 
 **Statement.**
 for all n ≥ 0, P(n): fib(n) ≤ 2<sup>n</sup> is true.
@@ -1165,7 +1165,7 @@ for all n ≥ 0, P(n): fib(n) ≤ 2<sup>n</sup> is true.
 			 ≤ 2^(n-1)*3
 			 < 2^(n+1)
 
-####Example 2
+#### Example 2
 
 **Statement.**
 for all n ≥ 1, P(n): fib(n) ≤ ϕ<sup>n</sup> is true.
@@ -1181,7 +1181,7 @@ for all n ≥ 1, P(n): fib(n) ≤ ϕ<sup>n</sup> is true.
 
 	(Only if 0 ≤ ϕ^2-ϕ-1)
 
-####Example 3
+#### Example 3
 
 **Statement.**
 for all n ≥ 1, P(n): fib(n) ≥ ϕ<sup>n-2</sup> is true.
@@ -1197,7 +1197,7 @@ for all n ≥ 1, P(n): fib(n) ≥ ϕ<sup>n-2</sup> is true.
 
 	(Only if 0 ≥ ϕ^2-ϕ-1)
 
-####Weak Binet Formula
+#### Weak Binet Formula
 
 For all n ≥ 1, fib(n) ≤ ϕ<sup>n</sup> is true.
 (Only if 0 ≤ ϕ<sup>2</sup>-ϕ-1)
@@ -1214,21 +1214,21 @@ Recursive Algorithms
 There are many algorithms that are easier to think of recursively than iteratively. An example of this is Mergesort.
 
 
-####Mergesort
+#### Mergesort
 
-#####Overview
+##### Overview
 * Divide array into two halves.
 * Recursively sort each half.
 * Merge two halves to make sorted whole.
 
 ![](http://i.imgur.com/AfjDuk5.png)
 
-#####Merge step
+##### Merge step
 * Keep track of smallest element in each sorted half.
 * Insert smallest of two elements into auxiliary array.
 * Repeat until done.
 
-#####Recurrence relation
+##### Recurrence relation
 
 Definition: T(n) = number of comparisons to mergesort an input of size n.
 
@@ -1239,7 +1239,7 @@ Mergesort recurrence:
 Solution: T(n) is O(n log n).
 
 
-####Tower of Hanoi
+#### Tower of Hanoi
 
 **Goal:** Move the n discs from stack #3 to stack #2.
 
@@ -1289,7 +1289,7 @@ Master Theorem
 ==============
 
 
-####Definition
+#### Definition
 The *Master Theorem* is a formula that can be applied to divide-and-conquer algorithms to calculate their running time given their recurrence relation.
 
 Given a relation: 
@@ -1297,7 +1297,7 @@ Given a relation:
 	T(n) = aT(n/b) + f(n)
 	where: a ≥ 1, b > 1, and f(n) > 0
 
-####Three cases
+#### Three cases
 *Case 1*: Leaves dominate the running time.
 If f(n) is O(n<sup>L</sup>) for some constant L < log<sub>b</sub>a, T(n) is ϴ(n<sup>log<sub>b</sub>a</sup>).
 
@@ -1315,13 +1315,13 @@ If f(n) is ϴ(n<sup>log<sub>b</sub>a</sup> log<sup>k</sup>n), for some k ≥ 0, 
 Divide and conquer algorithms
 =============================
 
-####Definition
+#### Definition
 
 * Break up problem into several parts
 * Solve each part recursively
 * Combine solutions to sub-problems in overall solution
 
-####Binary Search
+#### Binary Search
 
 *Input*: array *a*, value *v*, lower and upper bound indices *low*, *high*.
 *Output*: the index *i* of element *v* (if present), -1 (if *v* is not present).
@@ -1345,7 +1345,7 @@ Divide and conquer algorithms
 
 ![](http://i.imgur.com/ilsG2S1.png)
 
-####Karatsuba multiplication
+#### Karatsuba multiplication
 
 ![](http://i.imgur.com/i1CEswL.png)
 
@@ -1356,7 +1356,7 @@ Graphs
 ======
 A vast number of problems in practice are solved with graphs. A subset of graphs, trees, are incredibly useful.
 
-####Definition: 
+#### Definition: 
 
 * A graph G = (V,E) is composed of V (set of vertices) and E (set of edges connecting the vertices in V)
 * An edge e = (u,v) is a pair of vertices
@@ -1365,7 +1365,7 @@ Example:
 
 ![](http://i.imgur.com/lxU16CH.png)
 
-####Applications:
+#### Applications:
 
 * Electronic circuits (finding the path of least resistance)
 * Networks (roads, flights, communications)
@@ -1373,7 +1373,7 @@ Example:
 
 These two examples have no orientation in their graphs. However, we can have direction between vertices, such as in the graph for a project workflow.
 
-####Terminology:
+#### Terminology:
 
 * **Adjacent vertices**: connected by an edge.
 * **Degree (of a vertex)**: number of adjacet vertices. The sum of all the degrees in the graph, you get twice the number of edges. This is because every edge is a pair of 2 vertices.
@@ -1399,7 +1399,7 @@ Let m = #edges, n = #vertices
 
 Making a graph a cycle would make it more fault-tolerant and only requires n edges.
 
-####Konigsberg bridge problem
+#### Konigsberg bridge problem
 
 ![](http://www.contracosta.edu/legacycontent/math/KBRIDG3.GIF)
 ![](http://jwilson.coe.uga.edu/EMAT6680Fa2012/Faircloth/Essay2alf/proof1.jpg)
@@ -1455,17 +1455,17 @@ Data Structures for Graphs
 --------------------------
 These data structures store the vertices and edges of a graph into two containers, where each edge object has references to the vertices it connects.
 
-####Edge List
+#### Edge List
 The edge list structure stores the vertices and edges into unsorted sequences. It's the easiest to implement. Finding the edges incident on a given vertex is inefficient since it requires examining the entire edge sequence.
 
 ![](http://i.imgur.com/wvYjozs.png)
 
-####Adjacency List
+#### Adjacency List
 The adjacency list of a vertex stores all adjacent vertices. You can construct a graph with the adjacency lists of all vertices. The adjacency list extends the edge list structure by adding incidence containers to each vertex.
 
 ![](http://i.imgur.com/3qelxo6.png)
 
-####Adjacency Matrix
+#### Adjacency Matrix
 The adjacency matrix is a matrix M with entries for all pairs of vertices. Boolean values indicate whether or not there are existing edges between two vertices. Notice how for undirected edges, the matrix is symmetric.
 
 ![](http://i.imgur.com/qtoq11x.png)
@@ -1475,11 +1475,11 @@ Trees
 
 Trees describe hierarchical structures (e.g. organizational structure of a corporation, file directory in a Unix-based system, or the table of contents of a manual)
 
-####Terminology
+#### Terminology
 
 ![](http://i.imgur.com/DWbSrR9.png)
 
-####Methods
+#### Methods
 * *Generic container methods*: size(), isEmpty(), elements()
 * *Positional container methods*: positions(), swapElements(p,q), replaceElements(p,e)
 * *Query methods*: isRoot(p), isInternal(p), isExternal(p)
@@ -1509,17 +1509,17 @@ Examples:
 
 ![](http://i.imgur.com/vJX7oDN.png)
 
-####Methods
+#### Methods
 * *Accessor methods*: leftChild(p), rightChild(p), sibling(p)
 * *Update methods*: expandExternal(p), removeAboveExternal(p)
 
-#####Linked data structure for binary trees
+##### Linked data structure for binary trees
 
 Note: Focusing on one branch of the binary tree will be the same as a doubly linked list.
 
 ![](http://i.imgur.com/geYIqa8.png)
 
-#####General tree representation
+##### General tree representation
 
 ![](http://i.imgur.com/h1cWk75.png)
 
@@ -1531,7 +1531,7 @@ Depth-first search
 
 Depth-first search is an algorithm that traverses trees and graphs. To implement it, we will be using a stack (FILO) process, as we go further into our tree and backtrack once we reach a dead end. 
 
-####Example
+#### Example
 
 * A DPS in an undirected graph G is like wandering in a labyrinth with a string and a can of red paint without getting lost.
 * We start at a vertex **s**, tying the end of our string to the point and painting **s** as "visited". Next, we label **s** as our current vertex **u**.
@@ -1545,7 +1545,7 @@ Depth-first search is an algorithm that traverses trees and graphs. To implement
 
 * When we backtrack to vertex *s* and there are no more unexplored edges incident on *s*, we have completed our DFS search.
 
-####Algorithm
+#### Algorithm
 
 *Input*: Vertex v in a graph
 *Output*: A labeling of the edges as "discovery" edges and "backedges"
@@ -1569,7 +1569,7 @@ Back edges: Edges leading to a visited node
 
 ![](http://i.imgur.com/QcWrNK2.gif)
 
-####Determining Incident Edges
+#### Determining Incident Edges
 
 DFS depends on how you obtain incident edges. If we start at A and we examine the edge to F, then to B, then E, C, and finally G:
 
@@ -1577,14 +1577,14 @@ DFS depends on how you obtain incident edges. If we start at A and we examine th
 
 At the end of the algorithm execution, all vertices will be visited once and all edges twice (once from each of its vertices). The discovery edges will form a spanning tree of the connected component of s.
 
-####Properties
+#### Properties
 
 If *G* is an undirected graph on which a DFS traversal starting at a vertex *s* has been performed, then:
 
 * The traversal visits all vertices in the connected component of *s*.
 * The discovery edges form a spanning tree of the connected component of *s*.
 
-####Runtime analysis
+#### Runtime analysis
 
 Recall:
 * DFS is called on each vertex exactly once.
@@ -1615,7 +1615,7 @@ BFS traverses a connected component of a graph, and in doing so defines a spanni
 
 ![](http://i.imgur.com/cpoHGKe.gif)
 
-####Algorithm
+#### Algorithm
 
 *Input*: a vertex s in a graph
 
@@ -1638,14 +1638,14 @@ BFS traverses a connected component of a graph, and in doing so defines a spanni
 						label e as a cross edge
 		i<--i+1
 
-####Properties
+#### Properties
 
 * All vertices in the connected component of s will be visited. 
 * The discovery edges form a spanning tree T of the connected component of s.
 * For each vertex v at level i, the path of the BFS tree T between s and v has i edges, and any other path of G between s and v has at least i edges.
 * If (u,v) is an edge that is not in the BFS tree, then the level numbers of u and v differ by at most one.
 
-####Runtime analysis
+#### Runtime analysis
 
 BFS traversal of a graph G with n vertices and m edges will take time O(m+n). Also, there exist O(n+m) time algorithms based on BFS for the following problems:
 * Testing whether G is connected
@@ -1663,7 +1663,7 @@ Purpose: to create a dictionary ADT to store information organized as a tree tha
 * Like a priority queue, a dictionary stores key-element pairs.
 * The main operation supported by a dictionary is searching by key.
 
-####Methods
+#### Methods
 
 * Simple container methods:
 	- size()
@@ -1682,7 +1682,7 @@ Purpose: to create a dictionary ADT to store information organized as a tree tha
 * Special element:
 	- NO SUCH KEY, returned by an unsuccessful search
 
-####Sequence-based dictionary implementation
+#### Sequence-based dictionary implementation
 
 ![Imgur](http://i.imgur.com/0AtfG2O.png)
 * Unordered sequence:
@@ -1708,7 +1708,7 @@ A binary search tree is a binary tree T such that
 
 A binary search tree T is a decision tree, where the question asked at an internal node v is whether the search key k is less than, equal to, or greater than the key stored at v.
 
-####Algorithm
+#### Algorithm
 
 Algorithm TreeSearch(k,v):
 
@@ -1721,13 +1721,13 @@ Algorithm TreeSearch(k,v):
 	if k < key(v) then return TreeSearch(k,T.leftChild(v))
 	if k > key(v) then return TreeSearch(l,T.rightChild(v))
 
-####Example
+#### Example
 
 ![](http://i.imgur.com/5dery3a.png)
 
 ![](http://i.imgur.com/fOzgd8B.png)
 
-####Insertion
+#### Insertion
 
 * To perform insertItem(k,e), let w be the node returned by TreeSearch(k,T.root())
 
@@ -1739,7 +1739,7 @@ Algorithm TreeSearch(k,v):
 
 ![](http://i.imgur.com/pa0h1xK.png)
 
-####Removal
+#### Removal
 
 * We locate the node *w* where the key is stored with algorithm TreeSearch.
 * If w has an external child z, we remove w and z with removeAboveExternal(z)
@@ -1753,7 +1753,7 @@ Algorithm TreeSearch(k,v):
 
 ![](http://i.imgur.com/tJsof36.png)
 
-####Time complexity
+#### Time complexity
 
 * A search, insertion, or removal visits the nodes along a root-to-leaf path, plus possibly the siblings of such nodes.
 * Time O(1) is spent at each node.
@@ -1770,18 +1770,18 @@ A heap is a binary tree T that stores a collection of keys (or key-element pairs
 
 Heaps are useful to find min/max values in a set. Note that we don't care about the order in which the children are positioned, unlike in binary search trees.
 
-####Height
+#### Height
 
 ![](http://i.imgur.com/2gzw3AA.png)
 
-####Insertion
+#### Insertion
 
 ![](http://i.imgur.com/K5D0gfD.gif)
 
 * Upheap terminates when the new key is greater than the key of its parent or the top of the heap is reached.
 * Total # of swaps < (h - 1), which is O(log n).
 
-####Removal
+#### Removal
 
 ![](http://i.imgur.com/QBmFebu.gif)
 
@@ -1790,7 +1790,7 @@ Heaps are useful to find min/max values in a set. Note that we don't care about 
 * Downheap ends if the key is greater than both children or if the bottom fo the heap is reached.
 * Total # of swaps ≤ (h-1), which is O(log n).
 
-####Implementation
+#### Implementation
 
 One might be tempted to implement heaps as trees. The problem with this is that we have to know where we have to figure out where to insert following elements into the heap.
 
@@ -1816,7 +1816,7 @@ Notes:
 * Insertion and removal methods correspond to insertLast() and removeLast() on the vector.
 
 
-####Heapsort
+#### Heapsort
 
 One of the main reasons for making heaps is to use them in sorting, since they're mostly used to find the smallest element in a set. Sorting using heaps is called *Heapsort*.
 
@@ -1826,7 +1826,7 @@ One of the main reasons for making heaps is to use them in sorting, since they'r
 * Thus each phase takes O(n log n) time, so the algorithm runs in O(n log n) time as well.
 * The O(n log n) running time of heapsort is much better than the O(n<sup>2</sup>) runtime of selection and insertion sort.
 
-####Bottom-up heap construction
+#### Bottom-up heap construction
 
 We can in fact do an in-place heapsort, meaning that we can go through without actually making a heap separate from the unsorted array we started from. This saves the extra space of creating a second array, and we can do this in linear time. 
 
@@ -1850,7 +1850,7 @@ Counting-Sort
 
 Counting-sort is a sorting algorithm that doesn't actually use any comparisons. It counts how many times each possible value is encountered in A.
 
-####Algorithm
+#### Algorithm
 
 *Input*: An array A with the values and a value k that is an upper bound on the values to be sorted.
 
@@ -1899,21 +1899,21 @@ Radix sort was developed by IBM even before personal computers were a thing, bac
 *Key idea*: Sort least significant digits first. By doing so, we don't mess up the order of previously sorted digits as we continue. This is why *stability* is so important in this case, because when we meet identical values on a certain digit, they keep their order from previous digits.
 
 
-####Algorithm
+#### Algorithm
 ```java
 radixSort(A,d)
 	for i <-- 1 to d do
 		stable sort array A on digit i
 
 ```
-####Proof
+#### Proof
 
 * Assume digits 1,2,...,i-1 are sorted.
 * Show that a stable sort on digit i leaves digits 1,...,i sorted:
 	- If 2 digits in position i are different, ordering by position i is correct, and positions 1,...,i-1 are irrelevant.
 	- If 2 digits in position i are equal, numbers are already in the right order (by inductive hypothesis). The stable sort on digit i leaves them in the right order.
 
-####Runtime Analysis
+#### Runtime Analysis
 
 Assuming that Counting Sort is the stable sort used as an intermediate:
 * Θ(n+k) per pass (digits range in range 0...k)
@@ -1921,7 +1921,7 @@ Assuming that Counting Sort is the stable sort used as an intermediate:
 * Θ(d(n+k)) total
 * If k = O(n), time = Θ(dn)
 
-####How to break each key into digits?
+#### How to break each key into digits?
 
 * *n* words
 * *b* bits per word
@@ -1936,7 +1936,7 @@ How to choose r? Balance b/r and n + 2<sup>r</sup>. Choosing r ~ lg n gives us �
 
 Thus, to sort 2<sup>16</sup> 32-bit numbers, use r = lg 2<sup>16</sup> = 16 bits.
 
-####Comparison to mergesort and quicksort
+#### Comparison to mergesort and quicksort
 
 * 1 million (2<sup>20</sup>) 32-bit integers.
 * Radix sort: ceil(32/20) = 2 passes.
@@ -1946,7 +1946,7 @@ Thus, to sort 2<sup>16</sup> 32-bit numbers, use r = lg 2<sup>16</sup> = 16 bits
 
 However, the downside of this is that it uses 65536 memory cells.
 
-####Breaking n log n limit
+#### Breaking n log n limit
 
 How does radix sort violate the ground rules for a comparison sort? It uses counting sort to gain information about keys rather than directly comparing 2 keys. Keys are used as array indices.
 
@@ -1956,20 +1956,20 @@ Quicksort
 
 Quicksort is a divide and conquer algorithm that is the fastest method used for comparison sorting. Its major drawback is that its worse case is quadratic. However, on average, it runs a lot faster than the other methods. It runs in O(n log n) time, but the hidden constant in front of quicksort is a lot smaller than other logarithmic methods (e.g. mergesort or heapsort).
 
-####Runtime analysis
+#### Runtime analysis
 
 * Worst case: Already sorted array (either increasing or decreasing)
 * Recurrence relation: T(n) = T(n-1) + c*n+d
 
 
-####In-place algorithms
+#### In-place algorithms
 
 An algorithm is **in-place** if it uses only a constant amount of memory in addition to that used to store the input. These are important because if the data set to be sorted takes a lot of space already, we don't want an algorithm that takes up twice as much space.
 
 * Mergesort isn't in-place because its merge procedure requires a temporary array.
 * Selection sort and Insertion sort are in-place, because we're only moving elements within the input array.
 
-####Algorithm
+#### Algorithm
 
 **Partition step**
 
@@ -2007,7 +2007,7 @@ if (start<stop) then
 
 ```
 
-####Improvements
+#### Improvements
 
 Quicksort gets a lot slower if the array is already sorted.
 
@@ -2030,7 +2030,7 @@ Brute Force
 
 ![](http://i.imgur.com/6lNMkP7.png)
 
-####Algorithm
+#### Algorithm
 
 ```java
 do
@@ -2042,7 +2042,7 @@ until (entire pattern found or end of text)
 
 ```
 
-####Complexity
+#### Complexity
 
 * Given a pattern with M characters in length, and a text N characters in length...
 * Worst case: compares the pattern to each substring of text of length M.
@@ -2066,7 +2066,7 @@ Rabin-Karp
 * If the hash values are equal, the algorithm will do a Brute-Force comparison between the pattern and the M-character sequence.
 * In this way, there is only one comparison per text subsequence, and Brute Force is only needed when hash values match.
 
-####Algorithm
+#### Algorithm
 
 ```java
 
@@ -2086,7 +2086,7 @@ until (end of text or brute force comparison == true)
 ```
 
 
-####Math
+#### Math
 
 * Consider an M-character sequence as an M-digit number in base b, where b is the number of letters in the alphabet. The text subsequence t[i..i+M-1] is mapped to the number **x(i) = t[i]⋅b<sup>M-1</sup> + t[i+1]⋅b<sup>M-2</sup> +...+ t[i+M-1]**
 * Furthermore, given x(i) we can compute x(i+1) for the next subsequence t[i+1...i+M] in constant time, as follows:
@@ -2109,7 +2109,7 @@ Knuth-Morris-Pratt
 * Specifically, *f* is defined to be the longest prefix of the pattern P[0...j] that is also a suffix of P[1...j]. **N.B. Not a suffix of P[0...j]**.
 
 
-####Example
+#### Example
 
 The value of the KMP failure function:
 
@@ -2121,7 +2121,7 @@ The value of the KMP failure function:
 * This shows how much of the beginning of the string matches up to the portion immediately preceding a failed comparison.
 * If the comparison fails at (4), we know the a,b in positions 2,3 is identical to positions 0,1.
 
-####Algorithm
+#### Algorithm
 
 **Input**: Strings *T* (text) with *n* characters and *P* pattern with *m* characters.
 
@@ -2173,12 +2173,12 @@ KMPFailureFunction(P)
 
 ```
 
-####Graphical representation
+#### Graphical representation
 
 ![](http://i.imgur.com/1aE96z3.png)
 
 
-####Time Complexity Analysis
+#### Time Complexity Analysis
 
 * define *k = i - j*
 * In every iteration through the while loop, one of three things happens:
@@ -2196,13 +2196,13 @@ Regular Expressions
 
 Regular expressions (RegEx) is notation for describing a set of strings, possible of infinite size.
 
-####Notation
+#### Notation
 
 * **ε** denotes the empty string.
 * **ab+c** denotes the set {ab,c}
 * a* denotes the set {ε,a,aa,aaa,...}
 
-####Examples
+#### Examples
 
 * (a+b)&#42;: all the strings from the alphabet {a,b}
 * b&#42;(ab&#42;a)&#42;b&#42; strings with an even number of a's
@@ -2211,7 +2211,7 @@ Regular expressions (RegEx) is notation for describing a set of strings, possibl
 
 
 
-####Finite State Automatons
+#### Finite State Automatons
 
 Regular expressions are computed using Finite State Automatons. FSA can be combined to create OR or AND logic. The creation of the automaton and its subsequent checking process both run in linear time.
 
@@ -2241,7 +2241,7 @@ A path from the root *T* to an internal node *v* at depth *i* corresponds to an 
 
 We can implement a trie with an ordered tree by storing the character associated with an edge at the child node below it.
 
-####Compressed Tries
+#### Compressed Tries
 
 * A **compressed trie** is like a standard trie but makes sure that each trie has a degree of at least 2. Single child nodes are compressed into a single edge.
 * A **critical node** is a node v such that v is labeled with a string from S, v has at least 2 children, or v is the root.
@@ -2252,7 +2252,7 @@ We can implement a trie with an ordered tree by storing the character associated
 
 ![Example](http://i.imgur.com/mkP2OM6.png)
 
-####Prefix Queries on a Trie
+#### Prefix Queries on a Trie
 
 **Input**: Trie *T* for a set *S* of strings and a query string *X*.
 
@@ -2284,7 +2284,7 @@ prefixQuery(T,X)
 	return v
 ```
 
-####Insertion and deletion
+#### Insertion and deletion
 
 * Insertion: We first perform a prefix query for string X. There are two ways a prefix query may end in terms of insertion:
 	- The query terminates at node v. Let X<sub>1</sub> be the prefix of X that matched in the trie up to node v and X<sub>2</sub> be the rest of X. If X<sub>2</sub> is an empty string, we label v with X. Otherwise, we create a new external node w and label it with X.
@@ -2298,7 +2298,7 @@ prefixQuery(T,X)
 * Insertion is O(dn) where *d* is the size of the alphabet and *n* is the length of the string to insert.
 
 
-####Lempel Ziv Encoding
+#### Lempel Ziv Encoding
 
 This is an efficient way to represent strings such that the encoded strings are smaller than the strings they came from. This works in any language with a fixed alphabet, because certain characters and combinations appear much more frequently than others. (e.g. "t-h-e" will appear much more frequently than "z-z-z")
 
@@ -2325,7 +2325,7 @@ File compression
 * In order to reduce the space required to store a text file, we can exploit the fact that some characters are more likely to occur than others/
 * **Variable-length encoding** uses binary codes of different lenths for different characters; thus, we can assign fewer bits to frequently used chracters, and more bits to rarely used characters.
 
-####Example of encoding
+#### Example of encoding
 
 * Text: *java*
 * Encoding: *a = "0", j = "11", v = "10"*
