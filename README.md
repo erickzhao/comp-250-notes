@@ -3,7 +3,7 @@
 
 Algorithms
 ==========
-#####Informal Definition
+##### Informal Definition
 An algorithm is the specification of a sequence of instructions to be carried out by a processor.
 
 Algorithms can be run on a computer, but not necessarily:
@@ -30,13 +30,13 @@ We will mostly be concerned with algorithms that can be run by computers, since 
 
 Computer Science
 ----------------
-####Definition
+#### Definition
 Computer science is the study of algorithms for computing machines.
 
-####Formal definition of an algorithm
+#### Formal definition of an algorithm
 A well-ordered collection of unambiguous effectively computable operations that when executed produces a result and halts in a finite amount of time.
 
-####What distinguishes computer algorithms?
+#### What distinguishes computer algorithms?
 
 * Instructions are executed very quickly
 * Algorithms must be fully specified before execution
@@ -51,7 +51,7 @@ Unary representation is quite inefficient. It works well for addition of small s
 
 Numeral representations, such as the Roman numerals, came up with more efficient representations to describe larger numbers. However, since the largest character M only represents 1000, it is hard to represent numbers that are of orders of magnitude larger. Furthermore, the romans didn't even have a zero in their system, which means that addition was impossible. Adding 0 expanded how mathematics could work.
 
-####Algorithm 1: Addition
+#### Algorithm 1: Addition
 
 Using a base-10 addition table:
 
